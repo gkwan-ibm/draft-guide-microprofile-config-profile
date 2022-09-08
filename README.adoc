@@ -75,7 +75,7 @@ mvn -P development liberty:run
 
 TBA...
 
-run the url http://localhost:9085/query/systems/localhost
+run the url http://localhost:9085/query/systems/localhost and get error
 
 === Creating configuration profile in properties level
 
@@ -96,9 +96,18 @@ include::staging/query/src/main/resources/META-INF/microprofile-config.propertie
 
 add [hotspot=development file=0]`%development` properties
 
+Stop the `query` service by...
 
 
+Restart 
 
+[role='command']
+----
+mvn liberty:dev -Dliberty.var.mp.config.profile="development"
+----
+
+
+run the url http://localhost:9085/query/systems/localhost and success
 
 === Creating configuration profile using ConfigSource
 
