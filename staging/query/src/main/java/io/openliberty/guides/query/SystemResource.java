@@ -38,20 +38,16 @@ public class SystemResource {
     @Inject
     @ConfigProperty(name = "system.httpPort")
     private String systemHttpPort;
-    
+
+    // tag::userPassword[]
     @Inject
     @ConfigProperty(name = "system.userPassword")    
     private String systemUserPassword;
-    
+    // end::userPassword[]
+
     @Inject
     @ConfigProperty(name = "system.contextRoot")    
     private String systemContextRoot;
-
-    // tag::systemPropertiesProperty[]
-    @Inject
-    @ConfigProperty(name = "system.properties")    
-    private List<String> systemProperties;
-    // end::systemPropertiesProperty[]
 
     @GET
     @Path("/{hostname}")
@@ -59,38 +55,37 @@ public class SystemResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Properties getSystemProperties(@PathParam("hostname") String hostname) {
 
-    	SystemClient systemClient = null;
+        SystemClient systemClient = null;
         Properties p = new Properties();
-        
+
         try {
             String uriString = "http://" + hostname + ":" + systemHttpPort
-            		           + "/" + systemContextRoot;
+                               + "/" + systemContextRoot;
             URI customURI = URI.create(uriString);
             systemClient = RestClientBuilder.newBuilder()
                 .baseUri(customURI)
                 .register(UnknownUriExceptionMapper.class)
                 .build(SystemClient.class);
         } catch (Exception e) {
-        	p.put("fail", "Failed to create the client " + hostname + ".");
+            p.put("fail", "Failed to create the client " + hostname + ".");
             return p;
         }
 
+        // tag::authHeader[]
         String authHeader = "Basic "
                + Base64.getEncoder().encodeToString(systemUserPassword.getBytes());
+        // end::authHeader[]
 
         try {
-            // tag::systemProperties[]
-        	for (String property : systemProperties) {
-        		p.put(property, systemClient.getProperty(authHeader, property));
-        	}
-            // end::systemProperties[]
+            p.put("os.name", systemClient.getProperty(authHeader, "os.name"));
+            p.put("java.version", systemClient.getProperty(authHeader, "java.version"));
         } catch (Exception e) {
-        	p.put("fail", "Failed to reach the client " + hostname + ".");
+            p.put("fail", "Failed to reach the client " + hostname + ".");
             return p;
         } finally {
             try {
-            	systemClient.close();
-			} catch (Exception e) {
+                systemClient.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

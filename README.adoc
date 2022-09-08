@@ -126,7 +126,7 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Redefine the [hotspot=system file=0]`system.*` properties for development configuration
+Define the [hotspot=system file=0]`system.*` properties for development configuration
 
 // Replace microprofile-config.properties
 [role="code_command hotspot file=0", subs="quotes"]
@@ -160,6 +160,41 @@ run the url http://localhost:9085/query/systems/localhost and success
 == Defining property with expressions
 
 TBA...
+
+// File 0
+// Replace microprofile-config-development.properties
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `microprofile-config-development.properties` file.#
+`src/main/resources/META-INF/microprofile-config-development.properties`
+----
+
+microprofile-config-development.properties
+[source, properties, linenums, role="code_column hide_tags=properties,contactEmail"]
+----
+include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
+----
+
+add the [hotspot=userProperties file=0]`system.userProperties` properties for development configuration
+
+
+// File 1
+// Replace SystemResource.java
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/guides/query/SystemResource.java`
+----
+
+SystemResource.java
+[source, java, linenums, role="code_column hide_tags=properties,contactEmail"]
+----
+include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
+----
+
+Replace the `system.user` and `system.password` configuration properties by the [hotspot=userPassword file=1]`system.userPassword` property.
+
+Use the [hotspot=authHeader file=1]`systemUserPassword` to construct the authorization header.
 
 // =================================================================================================
 == Retrieving property as a list
