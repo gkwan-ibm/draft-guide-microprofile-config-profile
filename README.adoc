@@ -1,0 +1,97 @@
+// Copyright (c) 2022 IBM Corporation and others.
+// Licensed under Creative Commons Attribution-NoDerivatives
+// 4.0 International (CC BY-ND 4.0)
+//   https://creativecommons.org/licenses/by-nd/4.0/
+//
+// Contributors:
+//   IBM Corporation
+:projectid: microprofile-config-profile
+:page-layout: guide-multipane
+:page-duration: 30 minutes
+:page-releasedate: 2022-12-09
+:page-description: Explore how to externalize configuration using MicroProfile Config and configure microservices for different environments with MicroProfile Config Profile.
+:page-tags: ['MicroProfile']
+:page-permalink: /guides/{projectid}
+:page-related-guides: ['microprofile-config-intro']
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
+:source-highlighter: prettify
+:page-seo-title: Configuring microservices for different environments with MicroProfile Config Profile
+:page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple development stages for Java microservices using Eclipse MicroProfile Config.
+:guide-author: Open Liberty
+= Configuring microservices for different environments with MicroProfile Config Profile
+
+[.hidden]
+NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
+
+Explore how to externalize configuration using MicroProfile Config and configure microservices for different environments with MicroProfile Config Profile.
+
+// =================================================================================================
+== What you'll learn
+You will learn how to configure multiple environments by providing specific set of configuration properties for each environment with Config Profile. You will also explore the features to externalize your microservice's configuration properties.
+
+and more...
+
+
+// =================================================================================================
+// Getting Started
+
+[role=command]
+include::{common-includes}/gitclone.adoc[]
+
+
+// =================================================================================================
+== Trying the application
+
+TBA...
+
+
+// =================================================================================================
+== Adding configuration profile
+
+TBA...
+
+
+=== Creating configuration profile in properties level
+
+TBA...
+
+=== Creating configuration profile using ConfigSource
+
+TBA...
+
+
+// =================================================================================================
+== Defining property with expressions
+
+TBA...
+
+// =================================================================================================
+== Retrieving property as a list
+
+TBA...
+
+
+// =================================================================================================
+== Using configuration source APIs
+
+TBA...
+
+
+// =================================================================================================
+== Aggregating configuration properties into a CDI bean
+
+TBA...
+
+
+// =================================================================================================
+== Testing the application
+
+TBA...
+
+== Great work! You're done!
+
+You just learnt how to use Microfile Config Profile to configure the application for multiple environments.
+
+Feel free to try one of the related guides. They demonstrate new technologies that you can learn and expand on top what you built in this guide.
+
+include::{common-includes}/attribution.adoc[subs="attributes"]
