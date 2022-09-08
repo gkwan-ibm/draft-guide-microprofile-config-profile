@@ -233,7 +233,7 @@ SystemResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
-Add the `system.properties` configuration property that is defined with `List<String>` type.
+Add the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property that is defined with `List<String>` type.
 
 Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retreve all property values by calling the `systemClient` REST client.
 
