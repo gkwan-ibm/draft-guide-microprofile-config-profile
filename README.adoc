@@ -276,7 +276,7 @@ ConfigResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
 ----
 
-Explain different APIs, e.g [hotspot=config file=1]`Config`, [hotspot=configValue file=1]`ConfigValue`, ...
+Explain different APIs, e.g [hotspot=config file=1]`Config` class provides..., [hotspot=configValue file=1]`ConfigValue` claass provides..., ...
 
 run the urls http://localhost:9085/query/config and http://localhost:9085/query/config/contact
 
