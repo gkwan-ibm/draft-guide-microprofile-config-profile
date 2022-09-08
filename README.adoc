@@ -81,6 +81,25 @@ run the url http://localhost:9085/query/systems/localhost
 
 TBA...
 
+// Create SystemService
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `microprofile-config.properties` file.#
+`src/main/resources/META-INF/microprofile-config.properties`
+----
+
+microprofile-config.properties
+[source, properties, linenums, role="code_column"]
+----
+include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+add [hotspot=development file=0]`%development` properties
+
+
+
+
+
 === Creating configuration profile using ConfigSource
 
 TBA...
