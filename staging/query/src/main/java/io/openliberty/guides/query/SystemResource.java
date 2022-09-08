@@ -72,6 +72,7 @@ public class SystemResource {
         }
 
         // tag::authHeader[]
+        // String systemUserPassword = systemUser + ":" + systemPassword;
         String authHeader = "Basic "
                + Base64.getEncoder().encodeToString(systemUserPassword.getBytes());
         // end::authHeader[]
