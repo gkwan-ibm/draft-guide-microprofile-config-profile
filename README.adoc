@@ -44,6 +44,31 @@ include::{common-includes}/gitclone.adoc[]
 
 TBA...
 
+Navigate to the `start/system` directory.
+
+[role='command']
+----
+mvn -P testing liberty:run
+----
+
+...
+
+Navigate to the `start/query` directory.
+
+[role='command']
+----
+mvn liberty:dev
+----
+
+run the url http://localhost:9085/query/systems/localhost
+
+Stop the `syste`m service and restart it with development configuration
+[role='command']
+----
+mvn -P development liberty:run
+----
+
+...
 
 // =================================================================================================
 == Adding configuration profile
