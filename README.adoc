@@ -317,9 +317,9 @@ ConfigResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
 ----
 
-Inject the [hotspot=systemConfig file=0]`systemConfig` field variable ... ,
+Inject the [hotspot=systemConfig file=1]`systemConfig` field variable ... ,
 
-Add the [hotspot=getSystemConfig file=0]`/query/config/system` endpoint ...
+Add the [hotspot=getSystemConfig file=1]`/query/config/system` endpoint ...
 
 run url http://localhost:9085/query/config/system
 
