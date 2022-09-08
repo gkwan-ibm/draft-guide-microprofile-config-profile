@@ -81,7 +81,7 @@ run the url http://localhost:9085/query/systems/localhost and get error
 
 TBA...
 
-// Create SystemService
+// Replace microprofile-config.properties
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
@@ -112,6 +112,48 @@ run the url http://localhost:9085/query/systems/localhost and success
 === Creating configuration profile using ConfigSource
 
 TBA...
+
+// Create microprofile-config-development.properties
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `microprofile-config-development.properties` file.#
+`src/main/resources/META-INF/microprofile-config-development.properties`
+----
+
+microprofile-config-development.properties
+[source, properties, linenums, role="code_column hide_tags=userPassword,properties,contactEmail"]
+----
+include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
+----
+
+Redefine the [hotspot=system file=0]`system.*` properties for development configuration
+
+// Replace microprofile-config.properties
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `microprofile-config.properties` file.#
+`src/main/resources/META-INF/microprofile-config.properties`
+----
+
+microprofile-config.properties
+[source, properties, linenums, role="code_column hide_tags=development"]
+----
+include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+Remove the `%development.*` properties.
+
+Stop the `query` service by...
+
+
+Restart 
+
+[role='command']
+----
+mvn liberty:dev -Dliberty.var.mp.config.profile="development"
+----
+
+run the url http://localhost:9085/query/systems/localhost and success
 
 
 // =================================================================================================
