@@ -212,7 +212,7 @@ TBA...
 ----
 
 microprofile-config-development.properties
-[source, properties, linenums, role="code_column hide_tags=contactEmail"]
+[source, properties, linenums, role="code_column hide_tags=roleAndQuery"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
