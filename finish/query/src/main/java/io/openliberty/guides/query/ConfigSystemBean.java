@@ -18,7 +18,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperties;
 
 import jakarta.enterprise.context.Dependent;
 
+// tag::prefix[]
 @ConfigProperties(prefix = "system")
+// end::prefix[]
 @Dependent
 public class ConfigSystemBean {
 

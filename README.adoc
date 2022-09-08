@@ -285,6 +285,44 @@ run the urls http://localhost:9085/query/config and http://localhost:9085/query/
 
 TBA...
 
+// File 0
+// Create ConfigSystemBean.java
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `ConfigSystemBean` class.#
+`src/main/java/io/openliberty/guides/query/ConfigSystemBean.java`
+----
+
+ConfigSystemBean.java
+[source, properties, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java[]
+----
+
+Annotate the `ConfigSystemBean` class by [hotspot=prefix file=0]`@ConfigProperties` annotation with setting the `prefix` attribute to `system`... 
+
+and more...
+
+// File 1
+// Replace ConfigResource.java
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `ConfigResource` class.#
+`src/main/java/io/openliberty/guides/query/ConfigResource.java`
+----
+
+ConfigResource.java
+[source, java, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
+----
+
+Inject the [hotspot=systemConfig file=0]`systemConfig` field variable ... ,
+
+Add the [hotspot=getSystemConfig file=0]`/query/config/system` endpoint ...
+
+run url http://localhost:9085/query/config/system
+
 
 // ===========================================================================================
 == Testing the application
