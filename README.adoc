@@ -175,7 +175,7 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-add the [hotspot=userProperties file=0]`system.userProperties` properties for development configuration
+add the [hotspot=userProperties file=0]`system.userPassword` property that is constructed by `system.user` and `system.password`
 
 
 // File 1
