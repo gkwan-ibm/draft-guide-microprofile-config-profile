@@ -25,21 +25,21 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Explore how to externalize configuration using MicroProfile Config and configure microservices for different environments with MicroProfile Config Profile.
 
-// =================================================================================================
+// ===========================================================================================
 == What you'll learn
 You will learn how to configure multiple environments by providing specific set of configuration properties for each environment with Config Profile. You will also explore the features to externalize your microservice's configuration properties.
 
 and more...
 
 
-// =================================================================================================
+// ===========================================================================================
 // Getting Started
 
 [role=command]
 include::{common-includes}/gitclone.adoc[]
 
 
-// =================================================================================================
+// ===========================================================================================
 == Trying the application
 
 TBA...
@@ -70,7 +70,7 @@ mvn -P development liberty:run
 
 ...
 
-// =================================================================================================
+// ===========================================================================================
 == Adding configuration profile
 
 TBA...
@@ -156,7 +156,7 @@ mvn liberty:dev -Dliberty.var.mp.config.profile="development"
 run the url http://localhost:9085/query/systems/localhost and success
 
 
-// =================================================================================================
+// ===========================================================================================
 == Defining property with expressions
 
 TBA...
@@ -198,7 +198,7 @@ Use the [hotspot=authHeader file=1]`systemUserPassword` configuration property t
 
 run the url http://localhost:9085/query/systems/localhost and success
 
-// =================================================================================================
+// ===========================================================================================
 == Retrieving property as a list
 
 TBA...
@@ -239,19 +239,54 @@ Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to 
 
 run the url http://localhost:9085/query/systems/localhost and see more properties.
 
-// =================================================================================================
+// ===========================================================================================
 == Using configuration source APIs
 
 TBA...
 
+// File 0
+// Replace microprofile-config-development.properties
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `microprofile-config-development.properties` file.#
+`src/main/resources/META-INF/microprofile-config-development.properties`
+----
 
-// =================================================================================================
+microprofile-config-development.properties
+[source, properties, linenums, role="code_column"]
+----
+include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
+----
+
+add the [hotspot=roleAndQuery file=0]`role` and [hotspot=roleAndQuery file=0]`query.*` properties.
+
+The [hotspot=contactEmail file=0]`query.contactEmail` property specifies `admin` as the default value, and uses composed expression where the `${role}` inner expressions is resolved first.
+
+// File 1
+// Create ConfigResource.java
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Create the `ConfigResource` class.#
+`src/main/java/io/openliberty/guides/query/ConfigResource.java`
+----
+
+ConfigResource.java
+[source, java, linenums, role="code_column hide_tags=copyright,systemConfig,getSystemConfig"]
+----
+include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
+----
+
+Explain different APIs, e.g [hotspot=config file=1]`Config`, [hotspot=configValue file=1]`ConfigValue`, ...
+
+run the urls http://localhost:9085/query/config and http://localhost:9085/query/config/contact
+
+// ===========================================================================================
 == Aggregating configuration properties into a CDI bean
 
 TBA...
 
 
-// =================================================================================================
+// ===========================================================================================
 == Testing the application
 
 TBA...

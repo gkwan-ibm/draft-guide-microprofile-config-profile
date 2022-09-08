@@ -40,17 +40,19 @@ public class ConfigResource {
     @ConfigProperty(name = "query.contactEmail")
     private ConfigValue contactConfigValue;
 
+    // tag::systemConfig[]
     @Inject
     @ConfigProperties
     private ConfigSystemBean systemConfig;
-    
+    // end::systemConfig[]
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Properties> getAllConfig() {
-    	Map<String, Properties> configMap = new HashMap<String, Properties>();
-    	configMap.put("ConfigSources", getConfigSources());
-    	configMap.put("ConfigProperties", getConfigProperties());
-    	return configMap;
+        Map<String, Properties> configMap = new HashMap<String, Properties>();
+        configMap.put("ConfigSources", getConfigSources());
+        configMap.put("ConfigProperties", getConfigProperties());
+        return configMap;
     }
 
     @GET
@@ -67,6 +69,7 @@ public class ConfigResource {
         return configProps;
     }
 
+    // tag::getSystemConfig[]
     @GET
     @Path("/system")
     @Produces(MediaType.APPLICATION_JSON)
@@ -80,22 +83,23 @@ public class ConfigResource {
         configProps.put("system.properties", systemConfig.properties);
         return configProps;
     }
-    
+    // end::getSystemConfig[]
+
     public Properties getConfigSources() {
-    	Properties configSource = new Properties();
+        Properties configSource = new Properties();
         for (ConfigSource source : config.getConfigSources()) {
-        	configSource.put(source.getName(), source.getOrdinal());
+            configSource.put(source.getName(), source.getOrdinal());
         }
         return configSource;
     }
 
     public Properties getConfigProperties() {
-    	Properties configProperties = new Properties();
+        Properties configProperties = new Properties();
         for (String name : config.getPropertyNames()) {
             if (name.startsWith("system.")
-   	            || name.startsWith("query.")
+                   || name.startsWith("query.")
                 || name.equals("role")) {
-            	configProperties.put(name, config.getValue(name, String.class));
+                configProperties.put(name, config.getValue(name, String.class));
             }
         }
         return configProperties;
