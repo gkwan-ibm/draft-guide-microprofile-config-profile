@@ -62,7 +62,7 @@ mvn liberty:dev
 
 run the url http://localhost:9085/query/systems/localhost
 
-Stop the `syste`m service and restart it with development configuration
+Stop the `system` service and restart it with development configuration
 [role='command']
 ----
 mvn -P development liberty:run
@@ -75,6 +75,7 @@ mvn -P development liberty:run
 
 TBA...
 
+run the url http://localhost:9085/query/systems/localhost
 
 === Creating configuration profile in properties level
 
