@@ -33,13 +33,17 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/config")
 public class ConfigResource {
 
+	// tag::config[]
     @Inject
     private Config config;
+    // end::config[]
 
+    // tag::configValue[]
     @Inject
     @ConfigProperty(name = "query.contactEmail")
     private ConfigValue contactConfigValue;
-
+    // end::configValue[]
+    
     // tag::systemConfig[]
     @Inject
     @ConfigProperties
