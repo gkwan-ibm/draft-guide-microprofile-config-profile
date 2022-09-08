@@ -187,20 +187,57 @@ add the [hotspot=userPassword file=0]`system.userPassword` property that is cons
 ----
 
 SystemResource.java
-[source, java, linenums, role="code_column hide_tags=properties,contactEmail"]
+[source, java, linenums, role="code_column"]
 ----
 include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
 Replace the `system.user` and `system.password` configuration properties by the [hotspot=userPassword file=1]`system.userPassword` property.
 
-Use the [hotspot=authHeader file=1]`systemUserPassword` to construct the authorization header.
+Use the [hotspot=authHeader file=1]`systemUserPassword` configuration property to construct the authorization header.
+
+run the url http://localhost:9085/query/systems/localhost and success
 
 // =================================================================================================
 == Retrieving property as a list
 
 TBA...
 
+// File 0
+// Replace microprofile-config-development.properties
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `microprofile-config-development.properties` file.#
+`src/main/resources/META-INF/microprofile-config-development.properties`
+----
+
+microprofile-config-development.properties
+[source, properties, linenums, role="code_column hide_tags=contactEmail"]
+----
+include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
+----
+
+add the [hotspot=properties file=0]`system.properties` property that contains a list of property names seperated by comma.
+
+// File 1
+// Replace SystemResource.java
+[role="code_command hotspot file=1", subs="quotes"]
+----
+#Replace the `SystemResource` class.#
+`src/main/java/io/openliberty/guides/query/SystemResource.java`
+----
+
+SystemResource.java
+[source, java, linenums, role="code_column"]
+----
+include::finish/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
+----
+
+Add the `system.properties` configuration property that is defined with `List<String>` type.
+
+Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retreve all property values by calling the `systemClient` REST client.
+
+run the url http://localhost:9085/query/systems/localhost and see more properties.
 
 // =================================================================================================
 == Using configuration source APIs
