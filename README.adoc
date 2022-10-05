@@ -25,73 +25,127 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Explore how to externalize configuration using MicroProfile Config and configure microservices for different environments with MicroProfile Config Profile.
 
-// ===========================================================================================
+// =================================================================================================
+// What you'll learn
+// =================================================================================================
 == What you'll learn
 You will learn how to configure multiple environments by providing specific set of configuration properties for each environment with Config Profile. You will also explore the features to externalize your microservice's configuration properties.
 
-and more...
+// add more
 
+// The two microservices you will be working with are called `system` and `query`. The system microservice returns the JVM system properties of the running container and it returns the pod’s name in the HTTP header making replicas easy to distinguish from each other. The inventory microservice adds the properties from the system microservice to the inventory. This process demonstrates how communication can be established between pods inside a cluster.
 
-// ===========================================================================================
+// =================================================================================================
 // Getting Started
+// =================================================================================================
 
 [role=command]
 include::{common-includes}/gitclone.adoc[]
 
-
-// ===========================================================================================
+// =================================================================================================
+// Trying the application
+// =================================================================================================
 == Trying the application
 
-TBA...
+// file 0
+system/server.xml
+[source, XML, linenums, role='code_column']
+----
+include::start/system/src/main/liberty/config/server.xml[]
+----
 
-Navigate to the `start/system` directory.
+// file 1
+microprofile-config.properties
+[source, Properties, linenums, role='code_column']
+----
+include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+// file 2
+system/pom.xml
+[source, XML, linenums, role='code_column']
+----
+include::start/system/pom.xml[]
+----
+
+The starting Java project, which you can find in the `start` directory, is a multi-module Maven project that's made up of the `system` and `query` microservices. Each microservice resides in its own directory, `start/system` and `start/query`. 
+
+The `system` microservice contains the two build profiles: `testing` and `development`. To start the `system` service in the `testing` configuration, navigate to the `start/system` directory and run the following Maven goal to build the service and deploy it to Open Liberty:
 
 [role='command']
-----
+```
 mvn -P testing liberty:run
-----
+```
 
-...
+In the `testing` profile, the deafult application configuration from the `server.xml` file is used. You can find out from the [hotspot file=0]`src/main/liberty/config/server.xml` file that the `system` service is running on the port [hotspot=port file=0]`9080` with the [hotspot=context.root file=0]`system` context root. It also uses the username [hotspot=username file=0]`bob` and the password [hotspot=password file=0]`bobpwd` as the authorized access to the resources from other services.
 
-Navigate to the `start/query` directory.
+Next, open another command-line session and navigate to the `start/query` directory. 
+
+When you run Open Liberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following commands to start the `query` service in dev mode:
 
 [role='command']
-----
+```
 mvn liberty:dev
+```
+
+After you see the following message, your application server in dev mode is ready:
+
+[source, role="no_copy"]
+----
+**************************************************
+*     Liberty is running in dev mode.
 ----
 
-run the url http://localhost:9085/query/systems/localhost
+Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default configuration source for an application that uses MicroProfile Config. Each property that has already been defined in this file configure the properties required to access `system` service.
 
-Stop the `system` service and restart it with development configuration
+Point your browser to the http://localhost:9085/query/systems/localhost URL and use the username `bob` and the password `bobpwd` to authenticate. The URL retrieves the system property information for the `localhost` host name by making a request to the `system` service.
+
+After you are finished checking out the application, stop the `system` service by pressing `CTRL+C` in the command-line session where you ran the server. Alternatively, you can run the `liberty:stop` goal from the `start/system` directory in another shell session:
+
 [role='command']
-----
+```
+mvn liberty:stop
+```
+
+Then, restart the `system` service with `development` profile by running the following Maven goal from the `start/system` directory:
+
+[role='command']
+```
 mvn -P development liberty:run
-----
+```
 
-...
+// https://maven.apache.org/surefire/maven-failsafe-plugin/examples/system-properties.html
+Now, the [hotspot=development file=2]`development` configuration overrides the default configuration values from the `server.xml` file.
 
-// ===========================================================================================
+You can find out from the `pom.xml` file that the `system` service now is running on the port [hotspot=port file=2]`9081` with the [hotspot=context.root file=2]`system/dev` context root. Moreover, you now need to use the new username, [hotspot=username file=2]`alice`, and the new password, [hotspot=password file=2]`wonderland`, to log in.
+
+// =================================================================================================
+// Adding configuration profile
+// =================================================================================================
 == Adding configuration profile
 
-TBA...
+// file 0
+microprofile-config.properties
+[source, properties, linenums, role="code_column"]
+----
+include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
+----
 
-run the url http://localhost:9085/query/systems/localhost and get error
+Config Profiles allow configuration for different environments and development stages such as dev, testing, prod, etc. while only a single profile is active. The active Config Profile is specified via the property `mp.config.profile`, which can be set in any of the configuration sources or at application startup. Once it is set, the corresponding set of configuration properties associated with the active profile are used. 
+
+Navigate to the [hotspot hide_tags=development file=0]`query/src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. The value of each currently stored configuration property maps to the required value to access the `testing` configuration of the `system` service whilst the service is started with the `development` configuration.
+
+You can expect to see the following message when visiting the http://localhost:9085/query/systems/localhost URL: `{"fail":"Failed to reach the client localhost."}`.
 
 === Creating configuration profile in properties level
 
-TBA...
+A configuration property can be used at the property level by setting its name in the format: `%<mp.config.profile>.<original property name>`. 
 
 // Replace microprofile-config.properties
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
 `src/main/resources/META-INF/microprofile-config.properties`
-----
-
-microprofile-config.properties
-[source, properties, linenums, role="code_column"]
-----
-include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 add [hotspot=development file=0]`%development` properties
