@@ -126,14 +126,14 @@ You can find out from the `pom.xml` file that the `system` service now is runnin
 
 // file 0
 microprofile-config.properties
-[source, properties, linenums, role="code_column"]
+[source, Properties, linenums, role='code_column']
 ----
-include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
+include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 Config Profiles allow configuration for different environments and development stages such as dev, testing, prod, etc. while only a single profile is active. The active Config Profile is specified via the property `mp.config.profile`, which can be set in any of the configuration sources or at application startup. Once it is set, the corresponding set of configuration properties associated with the active profile are used. 
 
-Navigate to the [hotspot hide_tags=development file=0]`query/src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. The value of each currently stored configuration property maps to the required value to access the `testing` configuration of the `system` service whilst the service is started with the `development` configuration.
+Navigate to the [hotspot file=0]`query/src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. The value of each currently stored configuration property maps to the required value to access the `testing` configuration of the `system` service whilst the service is started with the `development` configuration.
 
 You can expect to see the following message when visiting the http://localhost:9085/query/systems/localhost URL: `{"fail":"Failed to reach the client localhost."}`.
 
@@ -142,10 +142,17 @@ You can expect to see the following message when visiting the http://localhost:9
 A configuration property can be used at the property level by setting its name in the format: `%<mp.config.profile>.<original property name>`. 
 
 // Replace microprofile-config.properties
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
 `src/main/resources/META-INF/microprofile-config.properties`
+----
+
+// file 1
+microprofile-config.properties
+[source, properties, linenums, role="code_column"]
+----
+include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 add [hotspot=development file=0]`%development` properties
