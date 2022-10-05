@@ -141,14 +141,13 @@ You can expect to see the following message when visiting the http://localhost:9
 
 A configuration property can be used at the property level by setting its name in the format: `%<mp.config.profile>.<original property name>`. 
 
-// Replace microprofile-config.properties
-[role="code_command hotspot file=1", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
 `src/main/resources/META-INF/microprofile-config.properties`
 ----
 
-// file 1
+// file 0
 microprofile-config.properties
 [source, properties, linenums, role="code_column"]
 ----
