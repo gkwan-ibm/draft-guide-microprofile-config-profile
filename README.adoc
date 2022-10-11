@@ -96,6 +96,8 @@ After you see the following message, your application server in dev mode is read
 *     Liberty is running in dev mode.
 ----
 
+Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
+
 Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default configuration source for an application that uses MicroProfile Config. Each property that has already been defined in this file configure the properties required to access `system` service.
 
 Point your browser to the http://localhost:9085/query/systems/localhost URL and use the username `bob` and the password `bobpwd` to authenticate. The URL retrieves the system property information for the `localhost` host name by making a request to the `system` service.
@@ -107,7 +109,7 @@ After you are finished checking out the application, stop the `system` service b
 mvn liberty:stop
 ```
 
-Then, restart the `system` service with `development` profile by running the following Maven goal from the `start/system` directory:
+Then, restart the `system` service with the `development` profile by running the following Maven goal from the `start/system` directory:
 
 [role='command']
 ```
@@ -135,7 +137,7 @@ Config Profiles allow configuration for different environments and development s
 
 Navigate to the [hotspot file=0]`query/src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. The value of each currently stored configuration property maps to the required value to access the `testing` configuration of the `system` service whilst the service is started with the `development` configuration.
 
-You can expect to see the following message when visiting the http://localhost:9085/query/systems/localhost URL: `{"fail":"Failed to reach the client localhost."}`.
+Try to access the http://localhost:9085/query/systems/localhost URL. You can expect to see the following error message: `{"fail":"Failed to reach the client localhost."}`.
 
 === Creating configuration profile in properties level
 
@@ -144,7 +146,7 @@ A configuration property can be used at the property level by setting its name i
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
-`src/main/resources/META-INF/microprofile-config.properties`
+`query/src/main/resources/META-INF/microprofile-config.properties`
 ----
 
 // file 0
@@ -154,42 +156,44 @@ microprofile-config.properties
 include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-add [hotspot=development file=0]`%development` properties
+Configure the [hotspot=development file=0]`%development.*` properties with the value of the system property variables from the `development` profile of the `system` service.
 
-Stop the `query` service by...
+Next, stop the `query` service by pressing `CTRL+C` in the command-line session where you ran the server, or by typing `q` and then pressing the `enter/return` key.
 
-
-Restart 
+Then, restart the `query` service with the `development` configuration profile by running the following Maven goal from the `start/query` directory:
 
 [role='command']
-----
+```
 mvn liberty:dev -Dliberty.var.mp.config.profile="development"
-----
+```
 
+With `mp.config.profile` set to `development`, each `%development.*` property overrides the value of its original property. For example, the property [hotspot=dev.port file=0]`%development.system.httpPort` overrides the property [hotspot=port file=0]`system.httpPort` and the value is resolved to `9081`.
 
-run the url http://localhost:9085/query/systems/localhost and success
+Now, you can access the application by the http://localhost:9085/query/systems/localhost URL. 
 
 === Creating configuration profile using ConfigSource
 
-TBA...
+Configuration properties can also be used at the ConfigSource level. Multiple config sources can be provided with the name formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` folder on the classpath so they can be used for specific selected profiles.
 
-// Create microprofile-config-development.properties
+// file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `microprofile-config-development.properties` file.#
-`src/main/resources/META-INF/microprofile-config-development.properties`
+`query/src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
 microprofile-config-development.properties
-[source, properties, linenums, role="code_column hide_tags=userPassword,properties,contactEmail"]
+[source, properties, linenums, role="code_column hide_tags=userPassword,properties,contactEmail,roleAndQuery"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Define the [hotspot=system file=0]`system.*` properties for development configuration
+Define the [hotspot=system file=0]`system.*` properties with the system property variables from the `development` configuration of the `system` service.
 
-// Replace microprofile-config.properties
-[role="code_command hotspot file=0", subs="quotes"]
+To use the configuration properties in [hotspot file=0]`microprofile-config-development.properties`,
+
+// file 1
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
 `src/main/resources/META-INF/microprofile-config.properties`
@@ -201,32 +205,34 @@ microprofile-config.properties
 include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Remove the `%development.*` properties.
+Remove all the `%development.*` properties from the [hotspot file=1]`microprofile-config.properties` file.
 
-Stop the `query` service by...
+Because the `mp.config.profile` is set to `development`, the file [hotspot file=0]`microprofile-config-development.properties` is loaded on top of the default [hotspot file=1]`microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from [hotspot file=0]`microprofile-config-development.properties` thus take precedence.
 
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. You're now ready to check out your application in your browser.
 
-Restart 
+Point your browser to the http://localhost:9085/query/systems/localhost URL to test out the application again. Your java version and operating system name is displayed.
 
-[role='command']
-----
-mvn liberty:dev -Dliberty.var.mp.config.profile="development"
-----
-
-run the url http://localhost:9085/query/systems/localhost and success
-
-
-// ===========================================================================================
+// =================================================================================================
+// Defining property with expressions
+// =================================================================================================
 == Defining property with expressions
 
-TBA...
+The value of a config property may contain an expression corresponding to another config property. Property expressions provide a way to embed expression segments in property values using the `${}` sequence.
 
-// File 0
-// Replace microprofile-config-development.properties
+Additionally, you can also implement expressions with the following syntax:
+
+* `${prop:default}` - Provides a `default` value after the `:` if the expression doesn't find a value for the property `prop`.
+
+* `${prop${compose}}` - Composed expressions where inner expressions are resolved first.
+
+* `${prop1}${prop2}` - Multiple expressions.
+
+// file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config-development.properties` file.#
-`src/main/resources/META-INF/microprofile-config-development.properties`
+`query/src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
 microprofile-config-development.properties
@@ -235,11 +241,13 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-add the [hotspot=userPassword file=0]`system.userPassword` property that is constructed by `system.user` and `system.password`
+Add the [hotspot=userPassword file=0]`system.userPassword` configuration property that is constructed by property [hotspot=user file=0]`system.user` and property [hotspot=password file=0]`system.password` to the `microprofile-config-development.properties` file.
 
+The property [hotspot=userPassword file=0]`system.userPassword` is expanded to `alice:alicepwd`.
 
-// File 1
-// Replace SystemResource.java
+To use this configuration property,
+
+// file 1
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
@@ -252,9 +260,11 @@ SystemResource.java
 include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
-Replace the `system.user` and `system.password` configuration properties by the [hotspot=userPassword file=1]`system.userPassword` property.
+Replace the injection of the `system.user` and `system.password` configuration properties with the [hotspot=userPassword file=1]`system.userPassword` property, and use the value of [hotspot=authHeader file=1]`systemUserPassword` to construct the authorization header.
 
-Use the [hotspot=authHeader file=1]`systemUserPassword` configuration property to construct the authorization header.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up.
+
+Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. If successful, it returns [] to you.
 
 run the url http://localhost:9085/query/systems/localhost and success
 
