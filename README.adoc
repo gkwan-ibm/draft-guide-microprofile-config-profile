@@ -158,7 +158,7 @@ include::staging/query/src/main/resources/META-INF/microprofile-config.propertie
 
 Configure the [hotspot=development file=0]`%development.*` properties with the value of the system property variables from the `development` profile of the `system` service.
 
-Next, stop the `query` service by pressing `CTRL+C` in the command-line session where you ran the server, or by typing `q` and then pressing the `enter/return` key.
+Next, stop the `query` service by pressing `CTRL+C` in the command-line session where you ran the `query` service, or by typing `q` and then pressing the `enter/return` key.
 
 Then, restart the `query` service with the `development` configuration profile by running the following Maven goal from the `start/query` directory:
 
@@ -211,7 +211,7 @@ Because the `mp.config.profile` is set to `development`, the file [hotspot file=
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. You're now ready to check out your application in your browser.
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL to test out the application again. Your java version and operating system name is displayed.
+Point your browser to the http://localhost:9085/query/systems/localhost URL to test out the application again. The `java.version` and `os.name` from the `system` service are displayed.
 
 // =================================================================================================
 // Defining property with expressions
@@ -264,17 +264,14 @@ Replace the injection of the `system.user` and `system.password` configuration p
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up.
 
-Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. If successful, it returns [] to you.
-
-run the url http://localhost:9085/query/systems/localhost and success
+Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. The `java.version` and `os.name` from the `system` service are displayed.
 
 // ===========================================================================================
 == Retrieving property as a list
 
-TBA...
+Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types as well as supports the retrieval of multi-valued properties as lists.
 
-// File 0
-// Replace microprofile-config-development.properties
+// file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config-development.properties` file.#
@@ -287,10 +284,11 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-add the [hotspot=properties file=0]`system.properties` property that contains a list of property names seperated by comma.
+Add the [hotspot=properties file=0]`system.properties` property that contains a list of property names seperated by comma to the [hotspot file=0]`microprofile-config-development.properties` file.
 
-// File 1
-// Replace SystemResource.java
+To use this configuration property,
+
+// file 1
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
@@ -303,19 +301,20 @@ SystemResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
-Add the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property that is defined with `List<String>` type.
+Inject the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property as a `List<String>` type.
 
-Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retreve all property values by calling the `systemClient` REST client.
+Then, modify the [hotspot=getSystemPropertiesMethod file=1]`getSystemProperties` method. Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retreve all specified property values by the `systemClient` REST client.
 
-run the url http://localhost:9085/query/systems/localhost and see more properties.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Alternatively, you can type `r` and press Enter in the command-line session where you ran the `query` service to restart the server .
+
+Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the system properties specified in the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property of your local JVM.
 
 // ===========================================================================================
 == Using configuration source APIs
 
 TBA...
 
-// File 0
-// Replace microprofile-config-development.properties
+// file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config-development.properties` file.#
@@ -328,12 +327,11 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-add the [hotspot=roleAndQuery file=0]`role` and [hotspot=roleAndQuery file=0]`query.*` properties.
+Add the [hotspot=role file=0]`role` and [hotspot=query file=0]`query.*` properties to the [hotspot file=0]`microprofile-config-development.properties` file.
 
-The [hotspot=contactEmail file=0]`query.contactEmail` property specifies `admin` as the default value, and uses composed expression where the `${role}` inner expressions is resolved first.
+The [hotspot=contactEmail file=0]`query.contactEmail` property specifies `admin` as the default value, and uses composed property expression where the `${role}` inner expressions is resolved first.
 
-// File 1
-// Create ConfigResource.java
+// file 1
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `ConfigResource` class.#

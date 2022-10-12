@@ -57,6 +57,7 @@ public class SystemResource {
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
+    // tag::getSystemPropertiesMethod[]
     public Properties getSystemProperties(@PathParam("hostname") String hostname) {
 
         SystemClient systemClient = null;
@@ -96,5 +97,6 @@ public class SystemResource {
         }
         return p;
     }
+    // end::getSystemPropertiesMethod[]
 
 }

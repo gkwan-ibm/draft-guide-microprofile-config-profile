@@ -100,9 +100,9 @@ public class ConfigResource {
     public Properties getConfigProperties() {
         Properties configProperties = new Properties();
         for (String name : config.getPropertyNames()) {
-            if (name.startsWith("system.")
-                   || name.startsWith("query.")
-                || name.equals("role")) {
+            if (name.startsWith("system.") || 
+                name.startsWith("query.") || 
+                name.equals("role")) {
                 configProperties.put(name, config.getValue(name, String.class));
             }
         }
