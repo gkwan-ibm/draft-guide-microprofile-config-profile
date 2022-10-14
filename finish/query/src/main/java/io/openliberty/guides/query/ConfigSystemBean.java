@@ -22,6 +22,7 @@ import jakarta.enterprise.context.Dependent;
 @ConfigProperties(prefix = "system")
 // end::prefix[]
 @Dependent
+// tag::ConfigSystemBean[]
 public class ConfigSystemBean {
 
     public int httpPort;
@@ -32,3 +33,4 @@ public class ConfigSystemBean {
     public List<String> properties;
 
 }
+// end::ConfigSystemBean[]
