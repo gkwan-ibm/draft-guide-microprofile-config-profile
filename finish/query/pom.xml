@@ -80,7 +80,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <!-- tag::systemPropertyVariables -->
+                    <!-- tag::systemPropertyVariables[] -->
                     <systemPropertyVariables>
                         <http.port>${liberty.var.default.http.port}</http.port>
                         <!-- development configuration -->
@@ -93,7 +93,7 @@
                         <testing.system.username>${testing.system.username}</testing.system.username>
                         <testing.system.password>${testing.system.password}</testing.system.password>
                     </systemPropertyVariables>
-                    <!-- end::systemPropertyVariables -->
+                    <!-- end::systemPropertyVariables[] -->
                 </configuration>
             </plugin>
         </plugins>
