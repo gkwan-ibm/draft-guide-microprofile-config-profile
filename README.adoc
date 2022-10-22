@@ -455,8 +455,8 @@ Navigate to the `start` directory and start the `system` service in `testing` en
 mvn -pl system liberty:start
 ```
 
-// file 2
-[role="code_command hotspot file=2", subs="quotes"]
+// file 0
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
 `query/src/main/resources/META-INF/microprofile-config.properties`
