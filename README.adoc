@@ -429,6 +429,7 @@ Each test case tests one of the endpoints of the `query` service.
 The tests for `query` verify that the service can communicate with `system` using the configured properties. If the properties are misconfigured, then the `query` test fails.
 
 === Running the tests
+
 Because you started Open Liberty in dev mode, you can run the tests by pressing the enter/return key from the command-line session where you started the `query` service.
 
 [source, role="no_copy"]
