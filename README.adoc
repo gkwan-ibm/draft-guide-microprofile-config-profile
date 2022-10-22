@@ -116,7 +116,6 @@ Then, restart the `system` service with the `development` profile by running the
 mvn -P development liberty:run
 ```
 
-// https://maven.apache.org/surefire/maven-failsafe-plugin/examples/system-properties.html
 Now, the [hotspot=development file=2]`development` configuration overrides the default configuration values from the `server.xml` file.
 
 You can find out from the `pom.xml` file that the `system` service now is running on the port [hotspot=port file=2]`9081` with the [hotspot=context.root file=2]`system/dev` context root. Moreover, you now need to use the new username, [hotspot=username file=2]`alice`, and the new password, [hotspot=password file=2]`wonderland`, to log in.
@@ -146,7 +145,7 @@ A configuration property can be used at the property level by setting its name i
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config.properties`
+`src/main/resources/META-INF/microprofile-config.properties`
 ----
 
 // file 0
@@ -179,7 +178,7 @@ Configuration properties can also be used at the ConfigSource level. Multiple co
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
+`src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
 microprofile-config-development.properties
@@ -230,7 +229,7 @@ Additionally, you can also implement expressions with the following syntax:
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
+`src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
 microprofile-config-development.properties
@@ -369,7 +368,7 @@ With Microprofile Config, you can aggregate configuration properties starting wi
 ----
 
 ConfigSystemBean.java
-[source, properties, linenums, role="code_column hide_tags=copyright"]
+[source, java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java[]
 ----
@@ -402,7 +401,101 @@ Because you are running the `query` service in dev mode, the changes that you ma
 // ===========================================================================================
 == Testing the application
 
-TBA...
+You will create endpoint tests to test the basic functionality of the `query` microservice. If a test failure occurs, then you might have introduced a bug into the code.
+
+// file 0
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Create the `QueryEndpointIT` class.#
+`src/test/java/it/io/openliberty/guides/query/QueryEndpointIT.java`
+----
+
+QueryEndpointIT.java
+[source, java, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/query/src/test/java/it/io/openliberty/guides/query/QueryEndpointIT.java[]
+----
+
+// file 1
+query/pom.xml
+[source, XML, linenums, role='code_column']
+----
+include::finish/query/pom.xml[]
+----
+
+The test code needs to know the information about the `system` service according to the activating profile to make requests. This information is stored as [hotspot=systemPropertyVariables file=1]`systemPropertyVariables` in the [hotspot file=1]`pom.xml` file. 
+
+Each test case tests one of the endpoints of the `query` service.
+The tests for `query` verify that the service can communicate with `system` using the configured properties. If the properties are misconfigured, then the `query` test fails.
+
+=== Running the tests
+Because you started Open Liberty in dev mode, you can run the tests by pressing the enter/return key from the command-line session where you started the `query` service.
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.query.QueryEndpointIT
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.542 s - in it.io.openliberty.guides.query.QueryEndpointIT
+ 
+Results:
+ 
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+----
+
+When you are done checking out the service in `development` environment, stop the Open Liberty server by pressing `CTRL+C` in the command-line sessions where you ran the `query` and `system` services. 
+
+You can also run tests against the `testing` profile from the `system` service.
+
+Navigate to the `start` directory and start the `system` service in `testing` environment by running the following Maven goal:
+
+[role='command']
+```
+mvn -pl system liberty:start
+```
+
+// file 2
+[role="code_command hotspot file=2", subs="quotes"]
+----
+#Replace the `microprofile-config.properties` file.#
+`query/src/main/resources/META-INF/microprofile-config.properties`
+----
+
+microprofile-config.properties
+[source, properties, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+Start the `query` service and run the integration tests by running the following Maven goals:
+
+[role='command']
+```
+mvn -pl query liberty:start
+mvn -pl query failsafe:integration-test
+```
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.query.QueryEndpointIT
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.542 s - in it.io.openliberty.guides.query.QueryEndpointIT
+ 
+Results:
+ 
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+----
+
+After you are finished checking out the application, stop the Open Liberty server by running the following Maven goals:
+
+[role='command']
+```
+mvn -pl system liberty:stop
+mvn -pl query liberty:stop
+```
 
 == Great work! You're done!
 

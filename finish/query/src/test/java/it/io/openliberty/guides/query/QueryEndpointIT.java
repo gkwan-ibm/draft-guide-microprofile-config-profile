@@ -14,7 +14,6 @@ package it.io.openliberty.guides.query;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.beans.Transient;
 import java.util.Base64;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -23,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import jakarta.json.JsonObject;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
 
 public class QueryEndpointIT {
