@@ -16,7 +16,7 @@
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 :page-seo-title: Configuring microservices for different environments with MicroProfile Config Profile
-:page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple project environment for Java microservices using Eclipse MicroProfile Config.
+:page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple project environments for Java microservices using Eclipse MicroProfile Config.
 :guide-author: Open Liberty
 = Configuring microservices for different environments with MicroProfile Config Profile
 
@@ -30,7 +30,7 @@ Learn how to use MicroProfile Config specification to provide configurations for
 // =================================================================================================
 == What you'll learn
 
-Explore how to configure multiple environments into a microservice by providing specific set of configuration properties for each environment. From development to production and across your DevOps environments, Config Profile gives flexibility for your microservices to set and choose configuration depending on the current project stage efficiently. This guide assumes you are familiar with MicroProfile Config. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
+Explore how to configure multiple environments into a microservice by providing specific set of configuration properties for each environment. From development to production and across your DevOps environments, Config Profile gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with MicroProfile Config. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
 Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservice, and aggregate related properties into a single property class.
 
@@ -75,12 +75,18 @@ The `system` microservice contains the two build profiles: `testing` and `develo
 
 [role='command']
 ```
+cd start/system
 mvn -P testing liberty:run
 ```
 
-In the `testing` profile, the deafult application configuration from the `server.xml` file is used. You can find out from the [hotspot file=0]`src/main/liberty/config/server.xml` file that the `system` service is running on the port [hotspot=port file=0]`9080` with the [hotspot=context.root file=0]`system` context root. It also uses the username [hotspot=username file=0]`bob` and the password [hotspot=password file=0]`bobpwd` as the authorized access to the resources from other services.
+In the `testing` environment, the default application configuration from the `src/main/liberty/config/server.xml` file is used. You can find out from the [hotspot file=0]`system/server.xml` file that the `system` service is running on port [hotspot=port file=0]`9080` with context root [hotspot=context.root file=0]`system`. In addition, a basic user registry is configured with the username [hotspot=username file=0]`bob` and the password [hotspot=password file=0]`bobpwd` as the authorized access to the resources from other services.
 
 Next, open another command-line session and navigate to the `start/query` directory. 
+
+[role='command']
+```
+cd start/query
+```
 
 When you run Open Liberty in development mode, known as dev mode, the server listens for file changes and automatically recompiles and deploys your updates whenever you save a new change. Run the following commands to start the `query` service in dev mode:
 
@@ -99,9 +105,9 @@ After you see the following message, your application server in dev mode is read
 
 Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
 
-Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default configuration source for an application that uses MicroProfile Config. Each property that has already been defined in this file configure the properties required to access `system` service.
+Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default ConfigSource for an application that uses MicroProfile Config. Each property that has been defined in this file corresponds to a property that is required to access the `system` service.
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL and use the username `bob` and the password `bobpwd` to authenticate. The URL retrieves the system property information for the `localhost` host name by making a request to the `system` service.
+Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service.
 
 After you are finished checking out the application, stop the `system` service by pressing `CTRL+C` in the command-line session where you ran the server. Alternatively, you can run the `liberty:stop` goal from the `start/system` directory in another shell session:
 
@@ -110,16 +116,14 @@ After you are finished checking out the application, stop the `system` service b
 mvn liberty:stop
 ```
 
-Then, restart the `system` service with the `development` profile by running the following Maven goal from the `start/system` directory:
+Then, restart the `system` service in `development` environment by running the following Maven goal from the `start/system` directory:
 
 [role='command']
 ```
 mvn -P development liberty:run
 ```
 
-Now, the [hotspot=development file=2]`development` configuration overrides the default configuration values from the `server.xml` file.
-
-You can find out from the `pom.xml` file that the `system` service now is running on the port [hotspot=port file=2]`9081` with the [hotspot=context.root file=2]`system/dev` context root. Moreover, you now need to use the new username, [hotspot=username file=2]`alice`, and the new password, [hotspot=password file=2]`wonderland`, to log in.
+Now, the configuration properties from the [hotspot=development file=2]`development` profile override the default configuration values from the `system/server.xml` file. You can find out from the [hotspot file=2]`system/pom.xml` file that the `system` service is now running on port [hotspot=port file=2]`9081` with context root [hotspot=context.root file=2]`system/dev`. In addition, the credentials for the user registry are updated with the new username [hotspot=username file=2]`alice` and the new password [hotspot=password file=2]`alicepwd`.
 
 // =================================================================================================
 // Adding configuration profile
