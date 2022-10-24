@@ -9,31 +9,32 @@
 :page-layout: guide-multipane
 :page-duration: 30 minutes
 :page-releasedate: 2022-12-09
-:page-description: Explore how to externalize configuration using MicroProfile Config and configure microservices for different environments with MicroProfile Config Profile.
+:page-description: Learn how to use MicroProfile Config specification to provide configurations for different Config Profiles depending on project environment.
 :page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['microprofile-config-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 :page-seo-title: Configuring microservices for different environments with MicroProfile Config Profile
-:page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple development stages for Java microservices using Eclipse MicroProfile Config.
+:page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple project environment for Java microservices using Eclipse MicroProfile Config.
 :guide-author: Open Liberty
 = Configuring microservices for different environments with MicroProfile Config Profile
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Explore how to externalize configuration using MicroProfile Config and configure microservices for different environments with MicroProfile Config Profile.
+Learn how to use MicroProfile Config specification to provide configurations for different Config Profiles depending on project environment.
 
 // =================================================================================================
 // What you'll learn
 // =================================================================================================
 == What you'll learn
-You will learn how to configure multiple environments by providing specific set of configuration properties for each environment with Config Profile. You will also explore the features to externalize your microservice's configuration properties.
 
-// add more
+Explore how to configure multiple environments into a microservice by providing specific set of configuration properties for each environment. From development to production and across your DevOps environments, Config Profile gives flexibility for your microservices to set and choose configuration depending on the current project stage efficiently. This guide assumes you are familiar with MicroProfile Config. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
-// The two microservices you will be working with are called `system` and `query`. The system microservice returns the JVM system properties of the running container and it returns the pod’s name in the HTTP header making replicas easy to distinguish from each other. The inventory microservice adds the properties from the system microservice to the inventory. This process demonstrates how communication can be established between pods inside a cluster.
+Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservice, and aggregate related properties into a single property class.
+
+The application that you will be working with is a `query` service, which fetches the system property information for the running host. Whenever a request is made to retrieve the system properties of the running host, the `query` service will create a client to invoke the `system` service on that host. The `system` service simulates a remote service in the application.
 
 // =================================================================================================
 // Getting Started
@@ -70,7 +71,7 @@ include::start/system/pom.xml[]
 
 The starting Java project, which you can find in the `start` directory, is a multi-module Maven project that's made up of the `system` and `query` microservices. Each microservice resides in its own directory, `start/system` and `start/query`. 
 
-The `system` microservice contains the two build profiles: `testing` and `development`. To start the `system` service in the `testing` configuration, navigate to the `start/system` directory and run the following Maven goal to build the service and deploy it to Open Liberty:
+The `system` microservice contains the two build profiles: `testing` and `development`. To start the `system` service in `testing` environment, navigate to the `start/system` directory and run the following Maven goal to build the service and deploy it to Open Liberty:
 
 [role='command']
 ```
