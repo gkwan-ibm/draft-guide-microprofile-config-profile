@@ -105,7 +105,7 @@ After you see the following message, your application server in dev mode is read
 
 Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
 
-Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default ConfigSource for an application that uses MicroProfile Config. Each property that has been defined in this file corresponds to a property that is required to access the `system` service.
+Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default ConfigSource for an application that uses MicroProfile Config. Each property that has been defined in this file corresponds to a property that is required to access the `testing` environment of the`system` service.
 
 Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service.
 
@@ -137,11 +137,9 @@ microprofile-config.properties
 include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Config Profiles allow configuration for different environments and development stages such as dev, testing, prod, etc. while only a single profile is active. The active Config Profile is specified via the property `mp.config.profile`, which can be set in any of the configuration sources or at application startup. Once it is set, the corresponding set of configuration properties associated with the active profile are used. 
+Config Profiles allow configuration for different environments such as development, testing, and production while only a single profile is active. The active Config Profile is specified by using the `mp.config.profile` property, which can be set in any of the ConfigSources or at application startup. Once it is set, the corresponding set of configuration properties that are associated with the active profile are used. 
 
-Navigate to the [hotspot file=0]`query/src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. The value of each currently stored configuration property maps to the required value to access the `testing` configuration of the `system` service whilst the service is started with the `development` configuration.
-
-Try to access the http://localhost:9085/query/systems/localhost URL. You can expect to see the following error message: `{"fail":"Failed to reach the client localhost."}`.
+Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message, `{"fail":"Failed to reach the client localhost."}`, because the current configuration properties defined in the [hotspot file=0]`microprofile-config.properties` file map to the required values to access the `testing` environment of the `system` service while the service is started with the `development` profile.
 
 === Creating configuration profile in properties level
 
