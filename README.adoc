@@ -139,11 +139,11 @@ include::start/query/src/main/resources/META-INF/microprofile-config.properties[
 
 Config Profiles allow configuration for different environments such as development, testing, and production while only a single profile is active. The active Config Profile is specified by using the `mp.config.profile` property, which can be set in any of the ConfigSources or at application startup. Once it is set, the corresponding set of configuration properties that are associated with the active profile are used. 
 
-Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message, `{"fail":"Failed to reach the client localhost."}`, because the current configuration properties defined in the [hotspot file=0]`microprofile-config.properties` file map to the required values to access the `testing` environment of the `system` service while the service is started with the `development` profile.
+Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message, `{"fail":"Failed to reach the client localhost."}`, because the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file map to the required values to access the `testing` environment of the `system` service while the service is started with the `development` profile.
 
 === Creating configuration profile in properties level
 
-A configuration property can be used at the property level by setting its name in the format: `%<mp.config.profile>.<original property name>`. 
+A configuration property can be used for a specific selected Config Profile at the property level by setting its name in the following format: `%<mp.config.profile>.<original property name>`. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -158,11 +158,11 @@ microprofile-config.properties
 include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Configure the [hotspot=development file=0]`%development.*` properties with the value of the system property variables from the `development` profile of the `system` service.
+Configure the [hotspot=development file=0]`%development.*` properties in the [hotspot file=0]`META-INF/microprofile-config.properties` file according to the system property values from the `development` profile of the `system` service.
 
 Next, stop the `query` service by pressing `CTRL+C` in the command-line session where you ran the `query` service, or by typing `q` and then pressing the `enter/return` key.
 
-Then, restart the `query` service with the `development` configuration profile by running the following Maven goal from the `start/query` directory:
+Restart the `query` service with the `development` Config Profile by running the following Maven goal from the `start/query` directory:
 
 [role='command']
 ```
@@ -171,11 +171,11 @@ mvn liberty:dev -Dliberty.var.mp.config.profile="development"
 
 With `mp.config.profile` set to `development`, each `%development.*` property overrides the value of its original property. For example, the property [hotspot=dev.port file=0]`%development.system.httpPort` overrides the property [hotspot=port file=0]`system.httpPort` and the value is resolved to `9081`.
 
-Now, you can access the application by the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version displayed in JSON format.
+Now, you can access the application by the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format.
 
 === Creating configuration profile using ConfigSource
 
-Configuration properties can also be used at the ConfigSource level. Multiple config sources can be provided with the name formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` folder on the classpath so they can be used for specific selected profiles.
+Multiple ConfigSources can be provided with the name formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` folder on the class path to be used for specific selected profiles.
 
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
@@ -190,9 +190,7 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Define the [hotspot=system file=0]`system.*` properties with the system property variables from the `development` configuration of the `system` service.
-
-To use the configuration properties in [hotspot file=0]`microprofile-config-development.properties`,
+Define the [hotspot=system file=0]`system.*` properties in the [hotspot file=0]`META-INF/microprofile-config-development.properties` file according to the system property variables from the `development` configuration of the `system` service.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -207,20 +205,18 @@ microprofile-config.properties
 include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Remove all the `%development.*` properties from the [hotspot file=1]`microprofile-config.properties` file.
+Remove all the [hotspot=development file=1]`%development.*` properties from the [hotspot file=1]`META-INF/microprofile-config.properties` file.
 
-Because the `mp.config.profile` is set to `development`, the file [hotspot file=0]`microprofile-config-development.properties` is loaded on top of the default [hotspot file=1]`microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from [hotspot file=0]`microprofile-config-development.properties` thus take precedence.
+Because the active profile is `development`, the [hotspot file=0]`META-INF/microprofile-config-development.properties` file is loaded on top of the default [hotspot file=1]`META-INF/microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from [hotspot file=0]`META-INF/microprofile-config-development.properties` thus take precedence.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Go to the http://localhost:9085/query/systems/localhost URL to test out the application again. The current OS and Java version are displayed.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Go to the http://localhost:9085/query/systems/localhost URL to check out the application again. You see the current OS and Java version in JSON format.
 
 // =================================================================================================
 // Defining property with expressions
 // =================================================================================================
 == Defining property with expressions
 
-The value of a config property may contain an expression corresponding to another config property. Property expressions provide a way to embed expression segments in property values using the `${}` sequence.
-
-Additionally, you can also implement expressions with the following syntax:
+Property expressions provide a way to embed expression segments in property values by using the `${...}` sequence. You can include the value of a configuration property into another configuration property by using the `${prop}` syntax. Additionally, you can implement expressions with the following syntax:
 
 * `${prop:default}` - Provides a `default` value after the `:` if the expression doesn't find a value for the property `prop`.
 
@@ -241,11 +237,7 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=userPassword file=0]`system.userPassword` configuration property that is constructed by property [hotspot=user file=0]`system.user` and property [hotspot=password file=0]`system.password` to the `microprofile-config-development.properties` file.
-
-The property [hotspot=userPassword file=0]`system.userPassword` is expanded to `alice:alicepwd`.
-
-To use this configuration property,
+Add the [hotspot=userPassword file=0]`system.userPassword` configuration property to the `META-INF/microprofile-config-development.properties` file. The [hotspot=userPassword file=0]`system.userPassword` property is expanded to `alice:alicepwd`.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -260,14 +252,14 @@ SystemResource.java
 include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
-Replace the injection of the `system.user` and `system.password` configuration properties with the [hotspot=userPassword file=1]`system.userPassword` property, and use the value of [hotspot=authHeader file=1]`systemUserPassword` to construct the authorization header.
+Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=1]`system.userPassword` property in the [hotspot file=1]`SystemResource` file, and use the [hotspot=authHeader file=1]`systemUserPassword` variable to construct the authorization header.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. The current OS and Java version are displayed.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. You see the current OS and Java version in JSON format.
 
 // ===========================================================================================
 == Retrieving property as a list
 
-Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types as well as supports the retrieval of multi-valued properties as lists.
+Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types and retrieves multi-valued properties as lists.
 
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
@@ -282,9 +274,7 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=properties file=0]`system.properties` property that contains a list of property names seperated by comma to the [hotspot file=0]`microprofile-config-development.properties` file.
-
-To use this configuration property,
+Add the [hotspot=properties file=0]`system.properties` property that contains a list of system properties that are separated by commas to the [hotspot file=0]`META-INF/microprofile-config-development.properties` file.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -301,11 +291,11 @@ include::finish/query/src/main/java/io/openliberty/guides/query/SystemResource.j
 
 Inject the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property as a `List<String>` type.
 
-Then, modify the [hotspot=getSystemPropertiesMethod file=1]`getSystemProperties` method. Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retreve all specified property values by the `systemClient` REST client.
+Then, modify the [hotspot=getSystemPropertiesMethod file=1]`getSystemProperties()` method. Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retrieve all the specified property values from the `systemClient` REST client.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Alternatively, you can type `r` and press Enter in the command-line session where you ran the `query` service to restart the server .
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the system properties specified in the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property of your local JVM.
+Point your browser to the http://localhost:9085/query/systems/localhost URL. You see the specified system properties of your local JVM in JSON format.
 
 // ===========================================================================================
 == Using configuration source APIs
