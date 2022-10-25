@@ -295,14 +295,14 @@ Then, modify the [hotspot=getSystemPropertiesMethod file=1]`getSystemProperties(
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Alternatively, you can type `r` and press Enter in the command-line session where you ran the `query` service to restart the server .
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. You see the specified system properties of your local JVM in JSON format.
+Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the specified system properties of your local JVM.
 
 // ===========================================================================================
 == Using configuration source APIs
 
-MicroProfile Config provides configuration source APIs for retrieving details about configuration properties. The ConfigValue API class holds a variety of useful information about a single specified config property. The Config API class on the other hand exposes the lookup metadata of all configuration properties. 
+MicroProfile Config provides configuration source APIs for retrieving details about configuration properties. You can use the ConfigValue API class to retrieve various useful information about a single specified configuration property. Alternatively, you can use the Config API class to look up the metadata of all underlying configuration properties. 
 
-You'll implement endpoints that retrieve configuration information that is specific to this guide by using the two API classes.
+You will implement endpoints that retrieve information specific to this guide by using the two API classes.
 
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
@@ -317,9 +317,9 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=role file=0]`role` and [hotspot=query file=0]`query.*` properties to the [hotspot file=0]`microprofile-config-development.properties` file.
+Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` properties to the [hotspot file=0]`META-INF/microprofile-config-development.properties` file.
 
-The [hotspot=contactEmail file=0]`query.contactEmail` property specifies `admin` as the default value, and uses composed property expression where the `${role}` inner expressions is resolved first.
+The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the default value `admin` if the expression doesn't find a value.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -334,24 +334,24 @@ ConfigResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
 ----
 
-Inject the [hotspot=configValue file=1]`query.contactEmail` property as usual, only this time define the type as `ConfigValue`. This ConfigValue metadata object holds additional information after the lookup of the [hotspot=configValue file=1]`query.contactEmail` configuration property. The [hotspot=getSourceName file=1]`getSourceName()` method determines which ConfigSource has the highest ordinal for the specified property. The [hotspot=getSourceOrdinal file=1]`getSourceOrdinal()` method returns the ordinal value of the ConfigSource that loaded the property lookup. The [hotspot=getValue file=1]`getValue()` methods returns the value of the config property.
+Inject the [hotspot=configValue file=1]`query.contactEmail` property as usual, only this time define the type as `ConfigValue`. 
 
-You can also retrieve the information of all config properties of the underlying configuration. 
+The [hotspot=configValue file=1]`ConfigValue` metadata object holds additional information after the lookup of the [hotspot=configValue file=1]`query.contactEmail` property. The [hotspot=getSourceName file=1]`getSourceName()` method determines which ConfigSource has the highest ordinal for the specified property. The [hotspot=getSourceOrdinal file=1]`getSourceOrdinal()` method returns the ordinal value of the ConfigSource that loaded the property lookup. The [hotspot=getValue file=1]`getValue()` methods returns the value of the config property.
 
-Inject the [hotspot=config file=1]`Config` metadata object. The [hotspot=getConfigSources file=1]`getConfigSources()` method returns all of the currently registered configuration sources for the running service. The [hotspot=getPropertyNames file=1]`getPropertyNames()` method finds all configuration property names by searching through all configured ConfigSources.
+Inject the [hotspot=config file=1]`Config` metadata object. 
+
+The [hotspot=getConfigSources file=1]`getConfigSources()` method returns all the registered configuration sources for the running service. The [hotspot=getPropertyNames file=1]`getPropertyNames()` method finds all configuration property names by searching through all the registered ConfigSources.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Alternatively, you can type `r` and press Enter in the command-line session where you ran the `query` service to restart the server .
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the system properties specified in the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property of your local JVM.
+Point your browser to the http://localhost:9085/query/config/contact URL. You see the source name, source ordinal, and value of the `query.contactEmail` propterty. 
 
-Point your browser to the http://localhost:9085/query/config/contact URL. You see the source name, source ordinal, and value of propterty `query.contactEmail`. 
-
-Next, point your browser to the http://localhost:9085/query/config URL. You see all registered configuration sources and property names of the running `query` service.
+Next, point your browser to the http://localhost:9085/query/config URL. You see all registered configuration sources and properties of the running `query` service.
 
 // ===========================================================================================
 == Aggregating configuration properties into a CDI bean
 
-With Microprofile Config, you can aggregate configuration properties starting with the same prefix into a single property class through the `@ConfigProperties` annotation.
+Microprofile Config provides a way to aggregate configuration properties that start with the same prefix into a single property class through the `@ConfigProperties` annotation.
 
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
@@ -368,9 +368,7 @@ include::finish/query/src/main/java/io/openliberty/guides/query/ConfigSystemBean
 
 Define a CDI bean for the configuration properties that share the common prefix `system.`.
 
-Annotate the [hotspot=ConfigSystemBean file=0]`ConfigSystemBean` class with [hotspot=prefix file=0]`@ConfigProperties` annotation. The `@ConfigProperties` 's `prefix` attribute specifies the common prefix of the configuration properties.
-
-To use this [hotspot=ConfigSystemBean file=0]`ConfigSystemBean` class,
+Annotate the [hotspot=ConfigSystemBean file=0]`ConfigSystemBean` class with the [hotspot=prefix file=0]`@ConfigProperties` annotation. The `@ConfigProperties` 's `prefix` attribute specifies the common prefix of the configuration properties.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -385,11 +383,11 @@ ConfigResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
 ----
 
-Inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable by using the [hotspot=inject file=1]`@Inject` and the [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations.
+Inject the `ConfigSystemBean` bean, and add the [hotspot=getSystemConfig file=1]`getSystemConfig()` class method.
 
-Implement the [hotspot=getSystemConfig file=1]`/query/config/system` endpoint. This endpoint uses the `ConfigSystemBean` bean class to retrieve the config property values of the `system.*` properties without having to inject them one by one.
+The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable. The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the `ConfigSystemBean` bean class to retrieve the config property values of the `system.*` properties without having to inject them one by one.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Go to the http://localhost:9085/query/config/system URL. You see all configuration properties prefixed with `system` and their values.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Visit the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
 
 // ===========================================================================================
 == Testing the application
@@ -416,10 +414,11 @@ query/pom.xml
 include::finish/query/pom.xml[]
 ----
 
-The test code needs to know the information about the `system` service according to the activating profile to make requests. This information is stored as [hotspot=systemPropertyVariables file=1]`systemPropertyVariables` in the [hotspot file=1]`pom.xml` file. 
+The test code needs to know the information about the `system` service according to the active profile to make requests. The information is stored as [hotspot=systemPropertyVariables file=1]`systemPropertyVariables` in the [hotspot file=1]`query/pom.xml` file. 
 
-Each test case tests one of the endpoints of the `query` service.
 The tests for `query` verify that the service can communicate with `system` using the configured properties. If the properties are misconfigured, then the `query` test fails.
+
+Each test case tests one of the endpoints of the `query` service. 
 
 === Running the tests
 
@@ -440,7 +439,7 @@ Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 
 When you are done checking out the service in `development` environment, stop the Open Liberty server by pressing `CTRL+C` in the command-line sessions where you ran the `query` and `system` services. 
 
-You can also run tests against the `testing` profile from the `system` service.
+You can also run the tests against the `testing` environment of the `system` service.
 
 Navigate to the `start` directory and start the `system` service in `testing` environment by running the following Maven goal:
 
