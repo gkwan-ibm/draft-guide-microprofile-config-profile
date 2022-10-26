@@ -34,7 +34,7 @@ Explore how to configure multiple environments into a microservice by providing 
 
 Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservice, and aggregate related properties into a single property class.
 
-The application that you will be working with is a `query` service. It communicates with the `system` service to fetch the system property information of your local JVM. 
+The application that you will be working with is a `query` service. It communicates with the `system` service to fetch the system property information of your local JVM. You'll add configuration properties to the `query` service by using Config Profiles according to the configurations required to access different environments of the `system` service.
 
 // =================================================================================================
 // Getting Started
@@ -69,7 +69,7 @@ system/pom.xml
 include::start/system/pom.xml[]
 ----
 
-The starting Java project, which you can find in the `start` directory, is a multi-module Maven project that's made up of the `system` and `query` microservices. Each microservice resides in its own directory, `start/system` and `start/query`. 
+The starting Java project, which you can find in the `start` directory, is a multi-module Maven project that's made up of the `system` and `query` microservices. Each microservice resides in its own corresponding directory, `system` and `query`. 
 
 The `system` microservice contains the two build profiles: `testing` and `development`. To start the `system` service in `testing` environment, navigate to the `start/system` directory and run the following Maven goal to build the service and deploy it to Open Liberty:
 
