@@ -143,7 +143,7 @@ Try to access the http://localhost:9085/query/systems/localhost URL. The `query`
 
 === Creating configuration profile in properties level
 
-A configuration property can be used for a specific selected Config Profile at the property level by setting its name in the following format: `%<mp.config.profile>.<original property name>`. 
+You can provide configuration properties for a specific selected Config Profile at the property level by setting its name in the following format: `%<mp.config.profile>.<original property name>`. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -175,7 +175,7 @@ Now, you can access the application by the http://localhost:9085/query/systems/l
 
 === Creating configuration profile using ConfigSource
 
-Multiple ConfigSources can be provided with the name formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` folder on the class path to be used for specific selected profiles.
+You can also provide multiple ConfigSources with the names formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` folder on the class path to be used for specific selected profiles.
 
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
@@ -216,7 +216,7 @@ Because you are running the `query` service in dev mode, the changes that you ma
 // =================================================================================================
 == Defining property with expressions
 
-Property expressions provide a way to embed expression segments in property values by using the `${...}` sequence. You can include the value of a configuration property into another configuration property by using the `${prop}` syntax. Additionally, you can implement expressions with the following syntax:
+Property expressions provide a way to embed expression segments in property values by using the `${...}` sequence. You can include the value of a configuration property in another configuration property by using the `${prop}` syntax. Additionally, you can implement expressions with the following syntax:
 
 * `${prop:default}` - Provides a `default` value after the `:` if the expression doesn't find a value for the property `prop`.
 
