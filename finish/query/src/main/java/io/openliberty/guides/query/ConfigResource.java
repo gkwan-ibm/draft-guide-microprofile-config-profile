@@ -44,9 +44,13 @@ public class ConfigResource {
     private ConfigValue contactConfigValue;
     // end::configValue[]
     
-    // tag::systemConfig[]
+    // tag::inject[]
     @Inject
+    // end::inject[]
+    // tag::ConfigProperties[]
     @ConfigProperties
+    // end::ConfigProperties[]
+    // tag::systemConfig[]
     private ConfigSystemBean systemConfig;
     // end::systemConfig[]
 
@@ -64,9 +68,15 @@ public class ConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Properties getContactConfig() {
         Properties configProps = new Properties();
+        // tag::getSourceName[]
         String sourceName = contactConfigValue.getSourceName();
+        // end::getSourceName[]
+        // tag::getSourceOrdinal[]
         int sourceOrdinal = contactConfigValue.getSourceOrdinal();
+        // end::getSourceOrdinal[]
+        // tag::getValue[]
         String value = contactConfigValue.getValue();
+        // end::getValue[]
         configProps.put("SourceName", sourceName);
         configProps.put("SourceOrdinal", sourceOrdinal);
         configProps.put("Value", value);
@@ -91,7 +101,9 @@ public class ConfigResource {
 
     public Properties getConfigSources() {
         Properties configSource = new Properties();
+        // tag::getConfigSources[]
         for (ConfigSource source : config.getConfigSources()) {
+        // end::getConfigSources[]
             configSource.put(source.getName(), source.getOrdinal());
         }
         return configSource;
@@ -99,10 +111,12 @@ public class ConfigResource {
 
     public Properties getConfigProperties() {
         Properties configProperties = new Properties();
+        // tag::getPropertyNames[]
         for (String name : config.getPropertyNames()) {
-            if (name.startsWith("system.")
-                   || name.startsWith("query.")
-                || name.equals("role")) {
+        // end::getPropertyNames[]
+            if (name.startsWith("system.") || 
+                name.startsWith("query.") || 
+                name.equals("role")) {
                 configProperties.put(name, config.getValue(name, String.class));
             }
         }

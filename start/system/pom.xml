@@ -69,6 +69,7 @@
     </build>
     
     <profiles>
+        <!-- tag::development[] -->
         <profile>
 			<id>development</id>
 			<activation>
@@ -77,11 +78,19 @@
 
 			<properties>
                 <system.service.root>localhost:9081</system.service.root>
+                <!-- tag::port[] -->
                 <liberty.var.default.http.port>9081</liberty.var.default.http.port>
+                <!-- end::port[] -->
                 <liberty.var.default.https.port>9444</liberty.var.default.https.port>
+                <!-- tag::username[] -->
                 <liberty.var.default.username>alice</liberty.var.default.username>
+                <!-- end::username[] -->
+                <!-- tag::password[] -->
                 <liberty.var.default.password>alicepwd</liberty.var.default.password>
+                <!-- end::password[] -->
+                <!-- tag::context.root[] -->
                 <liberty.var.context.root>system/dev</liberty.var.context.root>
+                <!-- end::context.root[] -->
 			</properties>
             
             <build>
@@ -91,6 +100,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.22.2</version>
                     </plugin>
+                    <!-- tag::maven-failsafe-plugin[] -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -104,9 +114,11 @@
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
+                    <!-- end::maven-failsafe-plugin[] -->
                 </plugins>
             </build>
 		</profile>
+        <!-- end::development[] -->
 
         <profile>
 			<id>testing</id>
