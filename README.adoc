@@ -344,7 +344,7 @@ Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` prop
 The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the `admin` default value if the expression doesn't find a value.
 
 
-Implement the `/query/config` and `/query/config/contact` endpoints in the `query` service.
+Implement the `/query/config` and `/query/config/contact` endpoints in the `query` service to retrieve configuration information by MicroProfile Config APIs.
  
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
