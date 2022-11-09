@@ -343,6 +343,9 @@ Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` prop
 
 The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the `admin` default value if the expression doesn't find a value.
 
+
+Implement the `/query/config` and `/query/config/contact` endpoints in the `query` service.
+ 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -390,7 +393,10 @@ ConfigSystemBean.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java[]
 ----
 
-Annotate the [hotspot=ConfigSystemBean file=0]`ConfigSystemBean` class with the [hotspot=prefix file=0]`@ConfigProperties` annotation. The [hotspot=ConfigSystemBean file=0]`prefix` attribute specifies the common prefix of the configuration properties to `system`.
+Annotate the [hotspot=ConfigSystemBean file=0]`ConfigSystemBean` class with the [hotspot=prefix file=0]`@ConfigProperties` annotation. The [hotspot=prefix file=0]`prefix` attribute specifies the common prefix of the configuration properties to `system`.
+
+
+Use the `ConfigSystemBean` class in the `ConfigResource` class.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
