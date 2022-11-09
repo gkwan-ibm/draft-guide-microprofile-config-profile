@@ -44,6 +44,7 @@ public class ConfigResource {
     private ConfigValue contactConfigValue;
     // end::configValue[]
     
+    // tag::configSystemBean[]
     // tag::inject[]
     @Inject
     // end::inject[]
@@ -53,6 +54,7 @@ public class ConfigResource {
     // tag::systemConfig[]
     private ConfigSystemBean systemConfig;
     // end::systemConfig[]
+    // end::configSystemBean[]
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

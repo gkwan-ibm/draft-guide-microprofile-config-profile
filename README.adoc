@@ -189,6 +189,8 @@ Now, you can access the application by the http://localhost:9085/query/systems/l
 
 You can also provide multiple ConfigSources with the names formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` directory.
 
+Navigate to the `start/query` directory.
+
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -225,9 +227,9 @@ microprofile-config.properties
 include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Remove all the [hotspot=development file=2]`%development.*` properties from the [hotspot file=2]`microprofile-config.properties` file.
+Remove all the `%development.*` properties from the [hotspot file=2]`microprofile-config.properties` file.
 
-Because the active profile is `development`, the [hotspot file=0]`META-INF/microprofile-config-development.properties` file is loaded on top of the default [hotspot file=1]`META-INF/microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from [hotspot file=0]`META-INF/microprofile-config-development.properties` thus take precedence.
+Because the active profile is `development`, the [hotspot file=0]`microprofile-config-development.properties` file is loaded on top of the default [hotspot file=1]`microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from [hotspot file=0]`microprofile-config-development.properties` file thus take precedence.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Go to the http://localhost:9085/query/systems/localhost URL to check out the application again. You see the current OS and Java version in JSON format.
 
@@ -238,7 +240,7 @@ Because you are running the `query` service in dev mode, the changes that you ma
 
 Property expressions provide a way to embed expression segments in property values by using the `${...}` sequence. You can include the value of a configuration property in another configuration property by using the `${prop}` syntax. Additionally, you can implement expressions with the following syntax:
 
-* `${prop:default}` - Provides a `default` value after the `:` if the expression doesn't find a value for the property `prop`.
+* `${prop:default}` - Provides a `default` value after the `:` character if the expression doesn't find a value for the `prop` property.
 
 * `${prop${compose}}` - Composed expressions where inner expressions are resolved first.
 
@@ -257,7 +259,7 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=userPassword file=0]`system.userPassword` configuration property to the `META-INF/microprofile-config-development.properties` file. The [hotspot=userPassword file=0]`system.userPassword` property is expanded to `alice:alicepwd`.
+Add the [hotspot=userPassword file=0]`system.userPassword` configuration property to the `microprofile-config-development.properties` file. The [hotspot=userPassword file=0]`system.userPassword` property is expanded to `alice:alicepwd`.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -294,7 +296,7 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=properties file=0]`system.properties` property that contains a list of system properties that are separated by commas to the [hotspot file=0]`META-INF/microprofile-config-development.properties` file.
+Add the [hotspot=properties file=0]`system.properties` property that contains a list of system properties that are separated by commas to the [hotspot file=0]`microprofile-config-development.properties` file.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -337,9 +339,9 @@ microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` properties to the [hotspot file=0]`META-INF/microprofile-config-development.properties` file.
+Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` properties to the [hotspot file=0]`microprofile-config-development.properties` file.
 
-The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the default value `admin` if the expression doesn't find a value.
+The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the `admin` default value if the expression doesn't find a value.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -403,7 +405,7 @@ ConfigResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
 ----
 
-Inject the `ConfigSystemBean` bean, and add the [hotspot=getSystemConfig file=1]`getSystemConfig()` class method.
+Inject the [hotspot=configSystemBean file=1]`ConfigSystemBean` bean, and add the [hotspot=getSystemConfig file=1]`getSystemConfig()` class method.
 
 The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable. The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the `ConfigSystemBean` bean class to retrieve the config property values of the `system.*` properties without having to inject them one by one.
 
