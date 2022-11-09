@@ -105,9 +105,11 @@ After you see the following message, your application server in dev mode is read
 
 Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
 
-Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default ConfigSource for an application that uses MicroProfile Config. Each property that has been defined in this file corresponds to a property that is required to access the `testing` environment of the `system` service.
+Navigate to the `start` directory.
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service.
+Check out the [hotspot file=1]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file of the `query` service is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
+
+Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` hostname by making a REST client call to the `system` service.
 
 After you are finished checking out the application, stop the `system` service by pressing `CTRL+C` in the command-line session where you ran the server. Alternatively, you can run the `liberty:stop` goal from the `start/system` directory in another shell session:
 
@@ -413,7 +415,7 @@ include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.j
 
 Inject the [hotspot=configSystemBean file=1]`ConfigSystemBean` bean, and add the [hotspot=getSystemConfig file=1]`getSystemConfig()` class method.
 
-The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable. The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the `ConfigSystemBean` bean class to retrieve the config property values of the `system.*` properties without having to inject them one by one.
+The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable. The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the `ConfigSystemBean` bean class to retrieve the values of the `system.*` configuration properties without having to inject them one by one.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Visit the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
 
