@@ -8,17 +8,17 @@
 :projectid: microprofile-config-profile
 :page-layout: guide-multipane
 :page-duration: 30 minutes
-:page-releasedate: 2022-12-09
-:page-description: Learn how to use MicroProfile Config specification to provide configurations for different Config Profiles depending on project environment.
+:page-releasedate: 2022-12-31
+:page-description: Learn how to use MicroProfile Config Profiles to provide configurations for different environments and development stages.
 :page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['microprofile-config-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-:page-seo-title: Configuring microservices for different environments with MicroProfile Config Profile
-:page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple project environments for Java microservices using Eclipse MicroProfile Config.
+:page-seo-title: Externalizing configuration for Java microservices with different environments and development stages using MicroProfile Config Profile
+:page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple project environments and development stages for Java microservices using MicroProfile Config Profile.
 :guide-author: Open Liberty
-= Configuring microservices for different environments with MicroProfile Config Profile
+= Configuring microservices for different environments with MicroProfile Config Profiles
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
