@@ -105,9 +105,7 @@ After you see the following message, your application server in dev mode is read
 
 Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
 
-Navigate to the `start` directory.
-
-Check out the [hotspot file=1]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file of the `query` service is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
+Navigate to the `start` directory and check out the [hotspot file=1]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
 
 Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` hostname by making a REST client call to the `system` service.
 
