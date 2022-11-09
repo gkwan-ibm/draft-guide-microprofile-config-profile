@@ -32,9 +32,9 @@ Learn how to use MicroProfile Config Profiles to provide configurations for diff
 
 You'll learn how to configure multiple environments into a microservice by providing specific sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with MicroProfile Config. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
-Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservice, and aggregate related properties into a single property class.
+Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservices, and aggregate related properties into a single property class.
 
-The application that you will be working with is a `query` service. It communicates with the `system` service to fetch the system property information of your local JVM. You'll add configuration properties to the `query` service by using Config Profiles according to the configurations required to access different environments of the `system` service.
+The application that you will be working with is a `query` service. It communicates with the `system` service to fetch the system property information of your local JVM. You'll add configuration properties to the `query` service by using MicroProfile Config Profile according to the configurations required to access different environments of the `system` service.
 
 // =================================================================================================
 // Getting Started
@@ -105,7 +105,7 @@ After you see the following message, your application server in dev mode is read
 
 Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
 
-Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default ConfigSource for an application that uses MicroProfile Config. Each property that has been defined in this file corresponds to a property that is required to access the `testing` environment of the`system` service.
+Access the [hotspot file=1]`src/main/resources/META-INF/microprofile-config.properties` local configuration file to check some static configuration. This configuration file is the default ConfigSource for an application that uses MicroProfile Config. Each property that has been defined in this file corresponds to a property that is required to access the `testing` environment of the `system` service.
 
 Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service.
 

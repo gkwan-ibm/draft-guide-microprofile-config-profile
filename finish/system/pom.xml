@@ -30,7 +30,7 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
-       
+
         <!-- For tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -67,23 +67,23 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
-			<id>development</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
+            <id>development</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
 
-			<properties>
+            <properties>
                 <system.service.root>localhost:9081</system.service.root>
                 <liberty.var.default.http.port>9081</liberty.var.default.http.port>
                 <liberty.var.default.https.port>9444</liberty.var.default.https.port>
                 <liberty.var.default.username>alice</liberty.var.default.username>
                 <liberty.var.default.password>alicepwd</liberty.var.default.password>
                 <liberty.var.context.root>system/dev</liberty.var.context.root>
-			</properties>
-            
+             </properties>
+
             <build>
                 <plugins>
                     <plugin>
@@ -106,14 +106,14 @@
                     </plugin>
                 </plugins>
             </build>
-		</profile>
+    </profile>
 
-        <profile>
-			<id>testing</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
+    <profile>
+        <id>testing</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+    </profile>
+  </profiles>
 
 </project>

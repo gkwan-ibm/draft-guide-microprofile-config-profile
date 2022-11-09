@@ -40,7 +40,7 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- For tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
