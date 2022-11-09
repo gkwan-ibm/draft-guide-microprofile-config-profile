@@ -30,7 +30,7 @@ Learn how to use MicroProfile Config Profiles to provide configurations for diff
 // =================================================================================================
 == What you'll learn
 
-You'll learn how to configure multiple environments into a microservice by providing specific sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with MicroProfile Config. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
+You'll learn how to configure multiple environments into a microservice by providing specific sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile^] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with MicroProfile Config. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
 Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservices, and aggregate related properties into a single property class.
 
@@ -137,9 +137,11 @@ microprofile-config.properties
 include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Config Profiles allow configuration for different environments such as development, testing, and production while only a single profile is active. The active Config Profile is specified by using the `mp.config.profile` property, which can be set in any of the ConfigSources or at application startup. Once it is set, the corresponding set of configuration properties that are associated with the active profile are used. 
+MicroProfile Config Profiles allow configurations for different environments such as development, testing, and production while only a single profile is active. The active profile is specified by using the `mp.config.profile` property, which can be set in any of the https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configsource[ConfigSources^] or at application startup. Once it is set, the corresponding set of configuration properties that are associated with the active profile are used. 
 
-Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message, `{"fail":"Failed to reach the client localhost."}`, because the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file map to the required values to access the `testing` environment of the `system` service while the service is started with the `development` profile.
+Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message: `{"fail":"Failed to reach the client localhost."}`.
+
+It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service `testing` environment.
 
 === Creating configuration profile in properties level
 
