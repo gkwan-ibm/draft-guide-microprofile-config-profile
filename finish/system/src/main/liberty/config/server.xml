@@ -9,6 +9,7 @@
         <feature>appSecurity-4.0</feature>
     </featureManager>
 
+    <!-- tag::defaultConfig[] -->
     <!-- tag::port[] -->
     <variable name="default.http.port" defaultValue="9080"/>
     <!-- end::port[] -->
@@ -22,6 +23,7 @@
     <!-- tag::context.root[] -->
     <variable name="context.root" defaultValue="system"/>
     <!-- end::context.root[] -->
+    <!-- end::defaultConfig[] -->
 
     <httpEndpoint id="defaultHttpEndpoint"
         host="*"
