@@ -78,6 +78,7 @@
 
             <properties>
                 <system.service.root>localhost:9081</system.service.root>
+                <!-- tag::developmentProperties[] -->
                 <!-- tag::port[] -->
                 <liberty.var.default.http.port>9081</liberty.var.default.http.port>
                 <!-- end::port[] -->
@@ -91,6 +92,7 @@
                 <!-- tag::context.root[] -->
                 <liberty.var.context.root>system/dev</liberty.var.context.root>
                 <!-- end::context.root[] -->
+                <!-- end::developmentProperties[] -->
             </properties>
 
             <build>

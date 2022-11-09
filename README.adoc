@@ -141,11 +141,11 @@ MicroProfile Config Profiles allow configurations for different environments suc
 
 Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message: `{"fail":"Failed to reach the client localhost."}`.
 
-It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service `testing` environment.
+It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service in the `testing` environment.
 
 === Creating configuration profile in properties level
 
-You can provide configuration properties for a specific selected Config Profile at the property level by setting its name in the following format: `%<mp.config.profile>.<original property name>`. 
+You can provide configuration properties for the `development` environment at the properties level by setting its name in the following format: `%<mp.config.profile>.<original property name>`. 
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
@@ -160,7 +160,14 @@ microprofile-config.properties
 include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Configure the [hotspot=development file=0]`%development.*` properties in the [hotspot file=0]`META-INF/microprofile-config.properties` file according to the system property values from the `development` profile of the `system` service.
+// file 1
+system/pom.xml
+[source, XML, linenums, role='code_column']
+----
+include::finish/system/pom.xml[]
+----
+
+Configure the [hotspot=development file=0]`%development.*` properties in the [hotspot file=0]`microprofile-config.properties` file according to the values from the [hotspot=developmentProperties file=1]`development` profile of the `system` service.
 
 Next, stop the `query` service by pressing `CTRL+C` in the command-line session where you ran the `query` service, or by typing `q` and then pressing the `enter/return` key.
 
