@@ -131,7 +131,7 @@ Now, the Maven properties from the [hotspot=development file=2]`development` pro
 == Adding configuration profile
 
 // file 0
-microprofile-config.properties
+query/microprofile-config.properties
 [source, Properties, linenums, role='code_column']
 ----
 include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
