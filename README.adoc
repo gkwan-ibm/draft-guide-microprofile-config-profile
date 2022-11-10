@@ -141,10 +141,10 @@ MicroProfile Config Profiles allow configurations for different environments suc
 
 Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message: `{"fail":"Failed to reach the client localhost."}`.
 
-It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service in the `testing` environment.
+It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service at the `testing` environment.
 
 
-Now, navigate to the `start/query` directory to create configuration profile in different ways.
+Now, navigate to the `start` directory to create configuration profile in different ways.
 
 === Creating configuration profile in properties level
 
@@ -153,11 +153,11 @@ You can provide configuration properties for the `development` environment at th
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
-`src/main/resources/META-INF/microprofile-config.properties`
+`query/src/main/resources/META-INF/microprofile-config.properties`
 ----
 
 // file 0
-microprofile-config.properties
+query/microprofile-config.properties
 [source, properties, linenums, role="code_column"]
 ----
 include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
