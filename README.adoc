@@ -144,7 +144,7 @@ Try to access the http://localhost:9085/query/systems/localhost URL. The `query`
 It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service at the `testing` environment.
 
 
-Now, navigate to the `start` directory to create configuration profile in different ways.
+Now, navigate to the `start` directory to create configuration profile for the `query` service in different ways.
 
 === Creating configuration profile in properties level
 
@@ -189,16 +189,15 @@ Now, you can access the application by the http://localhost:9085/query/systems/l
 
 You can also provide multiple ConfigSources with the names formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` directory.
 
-Navigate to the `start/query` directory.
 
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `microprofile-config-development.properties` file.#
-`src/main/resources/META-INF/microprofile-config-development.properties`
+`query/src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
-microprofile-config-development.properties
+query/microprofile-config-development.properties
 [source, properties, linenums, role="code_column hide_tags=userPassword,properties,contactEmail,roleAndQuery"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
