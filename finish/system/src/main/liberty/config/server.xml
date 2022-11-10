@@ -26,8 +26,7 @@
     <!-- end::defaultConfig[] -->
 
     <!-- tag::httpEndpoint[] -->
-    <httpEndpoint id="defaultHttpEndpoint"
-        host="*"
+    <httpEndpoint id="defaultHttpEndpoint" host="*"
         httpPort="${default.http.port}" 
         httpsPort="${default.https.port}"/>
     <!-- end::httpEndpoint[] -->

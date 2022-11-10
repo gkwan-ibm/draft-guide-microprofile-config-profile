@@ -56,7 +56,7 @@ include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
 // file 1
-microprofile-config.properties
+query/microprofile-config.properties
 [source, Properties, linenums, role='code_column']
 ----
 include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
@@ -107,7 +107,7 @@ Dev mode holds your command-line session to listen for file changes. Open anothe
 
 Navigate to the `start` directory and check out the [hotspot file=1]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` hostname by making a REST client call to the `system` service.
+Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` host name by making a request to the `system` service at `\http://localhost:9080/system/property/{property}`.
 
 After you are finished checking out the application, stop the `system` service by pressing `CTRL+C` in the command-line session where you ran the server. Alternatively, you can run the `liberty:stop` goal from the `start/system` directory in another shell session:
 
@@ -123,7 +123,7 @@ Then, restart the `system` service in `development` environment by running the f
 mvn -P development liberty:run
 ```
 
-Now, the configuration properties from the [hotspot=development file=2]`development` profile override the default configuration values from the `system/server.xml` file. You can find out from the [hotspot file=2]`system/pom.xml` file that the `system` service is now running on port [hotspot=port file=2]`9081` with context root [hotspot=context.root file=2]`system/dev`. In addition, the credentials for the user registry are updated with the new username [hotspot=username file=2]`alice` and the new password [hotspot=password file=2]`alicepwd`.
+Now, the Maven properties from the [hotspot=development file=2]`development` profile override the default configuration values from the `system/server.xml` file. You can find out from the [hotspot file=2]`system/pom.xml` file that the `system` service is now running on port [hotspot=port file=2]`9081` with context root [hotspot=context.root file=2]`system/dev`. In addition, the credentials for the user registry are updated with the new username [hotspot=username file=2]`alice` and the new password [hotspot=password file=2]`alicepwd`.
 
 // =================================================================================================
 // Adding configuration profile
