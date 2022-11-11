@@ -95,12 +95,14 @@ public class ConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Properties getSystemConfig() {
         Properties configProps = new Properties();
+        // tag::systemProperties[]
         configProps.put("system.httpPort", systemConfig.httpPort);
         configProps.put("system.user", systemConfig.user);
         configProps.put("system.password", systemConfig.password);
         configProps.put("system.userPassword", systemConfig.userPassword);
         configProps.put("system.contextRoot", systemConfig.contextRoot);
         configProps.put("system.properties", systemConfig.properties);
+        // end::systemProperties[]
         return configProps;
     }
     // end::getSystemConfig[]
