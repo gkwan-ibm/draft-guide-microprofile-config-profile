@@ -25,6 +25,10 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Learn how to use MicroProfile Config Profiles to provide configurations for different environments and development stages.
 
+:win: WINDOWS
+:mac: MAC
+:linux: LINUX
+
 // =================================================================================================
 // What you'll learn
 // =================================================================================================
@@ -507,14 +511,24 @@ Add the `system.userPassword`, `system.properties`, `role`, and `query.*` proper
 
 Navigate to the `start` directory to test the application by running the following Maven goals:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.mac_section.linux_section]
+--
 [role='command']
 ```
-mvn -pl system liberty:start
-mvn -pl query liberty:start
-mvn -pl query failsafe:integration-test
-mvn -pl query liberty:stop
-mvn -pl system liberty:stop
+./scripts/testApp.sh
 ```
+--
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+scripts\testApp.bat
+```
+--
+
 
 If the tests pass, you see a similar output to the following example:
 
