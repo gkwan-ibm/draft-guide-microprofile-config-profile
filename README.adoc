@@ -413,7 +413,7 @@ The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
 
 // ===========================================================================================
-== Testing the application
+== Implementing test cases
 
 You will create endpoint tests to test the basic functionality of the `query` microservice. If a test failure occurs, then you might have introduced a bug into the code.
 
@@ -451,7 +451,7 @@ See the following descriptions of the test cases:
 
 === Running the tests
 
-Because you started Open Liberty in dev mode, you can run the tests by pressing the enter/return key from the command-line session where you started the `query` service.
+Because you started Open Liberty in dev mode, you can run the tests by pressing the enter/return key from the command-line session where you started the `query` service. If the tests pass, you see a similar output to the following example:
 
 [source, role="no_copy"]
 ----
@@ -466,52 +466,7 @@ Results:
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-When you are done checking out the service in `development` environment, stop the Open Liberty server by pressing `CTRL+C` in the command-line sessions where you ran the `query` and `system` services. 
-
-You can also run the tests against the `testing` environment of the `system` service.
-
-Navigate to the `start` directory and start the `system` service in `testing` environment by running the following Maven goal:
-
-[role='command']
-```
-mvn -pl system liberty:start
-```
-
-// file 0
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Replace the `microprofile-config.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config.properties`
-----
-
-microprofile-config.properties
-[source, properties, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
-----
-
-Start the `query` service and run the integration tests by running the following Maven goals:
-
-[role='command']
-```
-mvn -pl query liberty:start
-mvn -pl query failsafe:integration-test
-```
-
-[source, role="no_copy"]
-----
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-Running it.io.openliberty.guides.query.QueryEndpointIT
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.542 s - in it.io.openliberty.guides.query.QueryEndpointIT
- 
-Results:
- 
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
-----
-
-When you are done checking out the application, exit dev mode by pressing CTRL+C in the command-line sessions where you ran the `system` and `query` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `query` services:
+When you are done checking out the application in `development` environment, exit dev mode by pressing CTRL+C in the command-line sessions where you ran the `system` and `query` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `query` services:
 // static guide instruction
 ifndef::cloud-hosted[]
 [role="command"]
@@ -528,6 +483,53 @@ mvn -pl system liberty:stop
 mvn -pl backendServices liberty:stop
 ```
 endif::[]
+
+
+// ===========================================================================================
+== Testing the application
+
+Before testing the application in the `testing` environment, you need to update the `microprofile-config.properties` file with new properties that were added in the previous section.
+
+// file 0
+[role="code_command hotspot file=0", subs="quotes"]
+----
+#Replace the `microprofile-config.properties` file.#
+`query/src/main/resources/META-INF/microprofile-config.properties`
+----
+
+microprofile-config.properties
+[source, properties, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
+----
+
+Add the `system.userPassword`, `system.properties`, `role`, and `query.*` properties.
+
+Navigate to the `start` directory to test the application by running the following Maven goals:
+
+[role='command']
+```
+mvn liberty:start
+mvn -pl query failsafe:integration-test
+mvn liberty:stop
+
+```
+
+If the tests pass, you see a similar output to the following example:
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.query.QueryEndpointIT
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.542 s - in it.io.openliberty.guides.query.QueryEndpointIT
+ 
+Results:
+ 
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+----
+
 
 == Great work! You're done!
 
