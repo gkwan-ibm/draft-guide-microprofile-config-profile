@@ -379,7 +379,7 @@ Define a CDI bean for the configuration properties that share the common prefix 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `ConfigSystemBean` class.#
-`src/main/java/io/openliberty/guides/query/ConfigSystemBean.java`
+`query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java`
 ----
 
 ConfigSystemBean.java
@@ -397,7 +397,7 @@ Use the `ConfigSystemBean` class in the `ConfigResource` class.
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `ConfigResource` class.#
-`src/main/java/io/openliberty/guides/query/ConfigResource.java`
+`query/src/main/java/io/openliberty/guides/query/ConfigResource.java`
 ----
 
 ConfigResource.java
@@ -406,11 +406,11 @@ ConfigResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
 ----
 
-Inject the [hotspot=configSystemBean file=1]`ConfigSystemBean` bean, and add the [hotspot=getSystemConfig file=1]`getSystemConfig()` class method.
+The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable.
 
-The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable. The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the `ConfigSystemBean` bean class to retrieve the values of the `system.*` configuration properties without having to inject them one by one.
+The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the [hotspot=configSystemBean file=1]`systemConfig bean to retrieve the values of the `system.*` configuration properties without having to inject them one by one.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Visit the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
 
 // ===========================================================================================
 == Testing the application
