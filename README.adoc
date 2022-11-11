@@ -264,7 +264,7 @@ Add the [hotspot=userPassword file=0]`system.userPassword` configuration propert
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
-`src/main/java/io/openliberty/guides/query/SystemResource.java`
+`query/src/main/java/io/openliberty/guides/query/SystemResource.java`
 ----
 
 SystemResource.java
@@ -273,7 +273,7 @@ SystemResource.java
 include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
-Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=1]`system.userPassword` property in the [hotspot file=1]`SystemResource` file, and use the [hotspot=authHeader file=1]`systemUserPassword` variable to construct the authorization header.
+Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=1]`system.userPassword` property, and use the [hotspot=authHeader file=1]`systemUserPassword` variable to construct the authorization header.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. You see the current OS and Java version in JSON format.
 

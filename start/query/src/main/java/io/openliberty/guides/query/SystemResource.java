@@ -36,7 +36,7 @@ public class SystemResource {
 
     @Inject
     @ConfigProperty(name = "system.httpPort")
-    private int systemHttpPort;
+    private String systemHttpPort;
 
     @Inject
     @ConfigProperty(name = "system.user")
