@@ -228,7 +228,7 @@ include::staging/query/src/main/resources/META-INF/microprofile-config.propertie
 
 Remove all the `%development.*` properties from the `microprofile-config.properties` file.
 
-Because the active profile is `development`, the [hotspot file=0]`microprofile-config-development.properties` file is loaded on top of the default [hotspot file=1]`microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from [hotspot file=0]`microprofile-config-development.properties` file thus take precedence.
+Because the active profile is `development`, the [hotspot file=0]`microprofile-config-development.properties` file is loaded on top of the default `microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from `microprofile-config-development.properties` file thus take precedence.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Go to the http://localhost:9085/query/systems/localhost URL to check out the application again. You see the current OS and Java version in JSON format.
 
