@@ -492,7 +492,7 @@ endif::[]
 // ===========================================================================================
 == Testing the application
 
-Before testing the application in the `testing` environment, you need to update the `microprofile-config.properties` file with new properties that were added in the previous section.
+Before testing the application in the `testing` environment, you need to update the `microprofile-config.properties` file with the new `system.userPassword`, `system.properties`, `role`, and `query.*` properties that were added in the previous section.
 
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
@@ -507,7 +507,6 @@ query/microprofile-config.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Add the `system.userPassword`, `system.properties`, `role`, and `query.*` properties.
 
 Navigate to the `start` directory to test the application by running the following script:
 
