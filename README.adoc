@@ -321,7 +321,7 @@ Because you are running the `query` service in dev mode, the changes that you ma
 // ===========================================================================================
 == Using configuration source APIs
 
-MicroProfile Config provides configuration source APIs for retrieving details about configuration properties. You can use the ConfigValue API class to retrieve various useful information about a single specified configuration property. Alternatively, you can use the Config API class to look up the metadata of all underlying configuration properties. 
+MicroProfile Config provides configuration source APIs for retrieving details about configuration properties. You can use the `ConfigValue` API class to retrieve various useful information about a single specified configuration property. Alternatively, you can use the `Config` API class to look up the metadata of all underlying configuration properties. 
 
 You will implement endpoints that retrieve information specific to this guide by using the two API classes.
 
@@ -329,10 +329,10 @@ You will implement endpoints that retrieve information specific to this guide by
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config-development.properties` file.#
-`src/main/resources/META-INF/microprofile-config-development.properties`
+`query/src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
-microprofile-config-development.properties
+query/microprofile-config-development.properties
 [source, properties, linenums, role="code_column"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
