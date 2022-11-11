@@ -38,12 +38,17 @@ public class ConfigResource {
     private Config config;
     // end::config[]
 
-    // tag::configValue[]
+    // tag::contactEmail[]
     @Inject
+    // tag::queryContactEmail[]
     @ConfigProperty(name = "query.contactEmail")
+    // end::queryContactEmail[]
+    // tag::configValue[]
     private ConfigValue contactConfigValue;
     // end::configValue[]
+    // end::contactEmail[]
     
+    // tag::configSystemBean[]
     // tag::inject[]
     @Inject
     // end::inject[]
@@ -53,6 +58,7 @@ public class ConfigResource {
     // tag::systemConfig[]
     private ConfigSystemBean systemConfig;
     // end::systemConfig[]
+    // end::configSystemBean[]
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -89,12 +95,14 @@ public class ConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Properties getSystemConfig() {
         Properties configProps = new Properties();
+        // tag::systemProperties[]
         configProps.put("system.httpPort", systemConfig.httpPort);
         configProps.put("system.user", systemConfig.user);
         configProps.put("system.password", systemConfig.password);
         configProps.put("system.userPassword", systemConfig.userPassword);
         configProps.put("system.contextRoot", systemConfig.contextRoot);
         configProps.put("system.properties", systemConfig.properties);
+        // end::systemProperties[]
         return configProps;
     }
     // end::getSystemConfig[]

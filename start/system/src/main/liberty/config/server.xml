@@ -1,4 +1,4 @@
-<server description="Sample Liberty server">
+<server description="system service">
 
     <featureManager>
         <feature>restfulWS-3.0</feature>
@@ -9,19 +9,11 @@
         <feature>appSecurity-4.0</feature>
     </featureManager>
 
-    <!-- tag::port[] -->
     <variable name="default.http.port" defaultValue="9080"/>
-    <!-- end::port[] -->
     <variable name="default.https.port" defaultValue="9443"/>
-    <!-- tag::username[] -->
     <variable name="default.username" defaultValue="bob"/>
-    <!-- end::username[] -->
-    <!-- tag::password[] -->
     <variable name="default.password" defaultValue="bobpwd"/>
-    <!-- end::password[] -->
-    <!-- tag::context.root[] -->
     <variable name="context.root" defaultValue="system"/>
-    <!-- end::context.root[] -->
 
     <httpEndpoint id="defaultHttpEndpoint"
         host="*"

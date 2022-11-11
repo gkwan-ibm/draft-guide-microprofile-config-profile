@@ -30,7 +30,7 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
-       
+
         <!-- For tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -67,32 +67,23 @@
             </plugin>
         </plugins>
     </build>
-    
-    <profiles>
-        <!-- tag::development[] -->
-        <profile>
-			<id>development</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 
-			<properties>
+    <profiles>
+        <profile>
+            <id>development</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <properties>
                 <system.service.root>localhost:9081</system.service.root>
-                <!-- tag::port[] -->
                 <liberty.var.default.http.port>9081</liberty.var.default.http.port>
-                <!-- end::port[] -->
                 <liberty.var.default.https.port>9444</liberty.var.default.https.port>
-                <!-- tag::username[] -->
                 <liberty.var.default.username>alice</liberty.var.default.username>
-                <!-- end::username[] -->
-                <!-- tag::password[] -->
                 <liberty.var.default.password>alicepwd</liberty.var.default.password>
-                <!-- end::password[] -->
-                <!-- tag::context.root[] -->
                 <liberty.var.context.root>system/dev</liberty.var.context.root>
-                <!-- end::context.root[] -->
-			</properties>
-            
+             </properties>
+
             <build>
                 <plugins>
                     <plugin>
@@ -100,7 +91,6 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.22.2</version>
                     </plugin>
-                    <!-- tag::maven-failsafe-plugin[] -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -114,18 +104,16 @@
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
-                    <!-- end::maven-failsafe-plugin[] -->
                 </plugins>
             </build>
-		</profile>
-        <!-- end::development[] -->
+        </profile>
 
         <profile>
-			<id>testing</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
+            <id>testing</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
 </project>

@@ -41,12 +41,12 @@ public class SystemResource {
 
     // tag::userPassword[]
     @Inject
-    @ConfigProperty(name = "system.userPassword")    
+    @ConfigProperty(name = "system.userPassword")
     private String systemUserPassword;
     // end::userPassword[]
 
     @Inject
-    @ConfigProperty(name = "system.contextRoot")    
+    @ConfigProperty(name = "system.contextRoot")
     private String systemContextRoot;
 
     @GET
