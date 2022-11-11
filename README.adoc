@@ -501,7 +501,7 @@ Before testing the application in the `testing` environment, you need to update 
 `query/src/main/resources/META-INF/microprofile-config.properties`
 ----
 
-microprofile-config.properties
+query/microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
@@ -509,7 +509,7 @@ include::finish/query/src/main/resources/META-INF/microprofile-config.properties
 
 Add the `system.userPassword`, `system.properties`, `role`, and `query.*` properties.
 
-Navigate to the `start` directory to test the application by running the following Maven goals:
+Navigate to the `start` directory to test the application by running the following script:
 
 include::{common-includes}/os-tabs.adoc[]
 
