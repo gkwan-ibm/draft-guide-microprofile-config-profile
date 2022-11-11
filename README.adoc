@@ -286,10 +286,10 @@ Configuration values are purely Strings. MicroProfile Config API has built-in co
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config-development.properties` file.#
-`src/main/resources/META-INF/microprofile-config-development.properties`
+`query/src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
-microprofile-config-development.properties
+query/microprofile-config-development.properties
 [source, properties, linenums, role="code_column hide_tags=roleAndQuery"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
@@ -301,7 +301,7 @@ Add the [hotspot=properties file=0]`system.properties` property that contains a 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
-`src/main/java/io/openliberty/guides/query/SystemResource.java`
+`query/src/main/java/io/openliberty/guides/query/SystemResource.java`
 ----
 
 SystemResource.java
