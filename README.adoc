@@ -15,10 +15,10 @@
 :page-related-guides: ['microprofile-config-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
-:page-seo-title: Externalizing configuration for Java microservices with different environments and development stages using MicroProfile Config Profile
+:page-seo-title: Configuring Java microservices with different environments and development stages using MicroProfile Config Profiles
 :page-seo-description: A tutorial and example on how to externalize configuration properties and configure multiple project environments and development stages for Java microservices using MicroProfile Config Profile.
 :guide-author: Open Liberty
-= Configuring microservices for different environments with MicroProfile Config Profiles
+= Configuring microservices for different environments
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
@@ -30,11 +30,11 @@ Learn how to use MicroProfile Config Profiles to provide configurations for diff
 // =================================================================================================
 == What you'll learn
 
-You'll learn how to configure multiple environments into a microservice by providing specific sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile^] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#_microprofile_config[MicroProfile Config^]. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
+You'll learn how to configure multiple environments into a microservice by providing different sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile^] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#_microprofile_config[MicroProfile Config^]. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
 Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservices, and aggregate related properties into a single property class.
 
-The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll provide the `query` service with different configurations by using MicroProfile Config Profiles, so that it can access different environments of the `system` service.
+The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll provide the `query` service with different configurations using MicroProfile Config Profiles, so that it can access different environments of the `system` service.
 
 // =================================================================================================
 // Getting Started
@@ -105,7 +105,7 @@ After you see the following message, your application server in dev mode is read
 
 Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
 
-Navigate to the `start` directory and check out the [hotspot file=1]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
+Navigate to the `start` directory and check out the [hotspot=system file=1]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
 
 Point your browser to the http://localhost:9085/query/systems/localhost URL. The URL retrieves the system property information for the `localhost` host name by making a request to the `system` service at `\http://localhost:9080/system/property/{property}`.
 
