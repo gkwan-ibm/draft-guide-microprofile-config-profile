@@ -421,7 +421,7 @@ You will create endpoint tests to test the basic functionality of the `query` mi
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the `QueryEndpointIT` class.#
-`src/test/java/it/io/openliberty/guides/query/QueryEndpointIT.java`
+`query/src/test/java/it/io/openliberty/guides/query/QueryEndpointIT.java`
 ----
 
 QueryEndpointIT.java
@@ -437,11 +437,17 @@ query/pom.xml
 include::finish/query/pom.xml[]
 ----
 
-The test code needs to know the information about the `system` service according to the active profile to make requests. The information is stored as [hotspot=systemPropertyVariables file=1]`systemPropertyVariables` in the [hotspot file=1]`query/pom.xml` file. 
+See the following descriptions of the test cases:
 
-The tests for `query` verify that the service can communicate with `system` using the configured properties. If the properties are misconfigured, then the `query` test fails.
+* [hotspot=testQuerySystem file=0]`testQuerySystem()` verifies the `/query/systems/{hostname}` endpoint.
 
-Each test case tests one of the endpoints of the `query` service. 
+* [hotspot=testQueryConfigContact file=0]`testQueryConfigContact()` verifies the `/query/config/contact` endpoint.
+
+* [hotspot=testQueryConfig file=0]`testQueryConfig()` verifies the `/query/config` endpoint.
+
+* [hotspot=testQueryConfigSystem file=0]`testQueryConfigSystem()` verifies the `/query/config/system` endpoint.
+
+* [hotspot=testUnknownHost file=0]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system properties is correctly handled with a fail message.
 
 === Running the tests
 
@@ -453,11 +459,11 @@ Because you started Open Liberty in dev mode, you can run the tests by pressing 
  T E S T S
 -------------------------------------------------------
 Running it.io.openliberty.guides.query.QueryEndpointIT
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.542 s - in it.io.openliberty.guides.query.QueryEndpointIT
- 
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.703 s - in it.io.openliberty.guides.query.QueryEndpointIT
+
 Results:
- 
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 When you are done checking out the service in `development` environment, stop the Open Liberty server by pressing `CTRL+C` in the command-line sessions where you ran the `query` and `system` services. 

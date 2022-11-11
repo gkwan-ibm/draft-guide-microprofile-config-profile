@@ -13,10 +13,11 @@
 package it.io.openliberty.guides.query;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Base64;
-
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jakarta.json.JsonObject;
@@ -26,158 +27,121 @@ import jakarta.ws.rs.core.Response;
 
 public class QueryEndpointIT {
 
-    private static String configProfile;
-    private static String queryUrl;
-    private static String sysContextRoot;
-    private static String systemUrl;
-    private static String authHeader;
 
+	private static String port = System.getProperty("http.port");
+	private static String baseUrl = "http://localhost:" + port + "/query";
+	private static String systemHost = System.getProperty("system.host");
+	
     private static Client client;
 
-    @BeforeAll
-    public static void setup() {
+    @BeforeEach
+    public void setup() {
+      client = ClientBuilder.newClient();
+    }
 
-        configProfile = System.getProperty("liberty.var.mp.config.profile", "testing");
+    @AfterEach
+    public void teardown() {
+    	client.close();
+    }
 
-        String queryPort = System.getProperty("http.port");
-        queryUrl = "http://localhost:" + queryPort + "/query/";
+    // tag::testQuerySystem[]
+    @Test
+    public void testQuerySystem() {
 
-        String systemPort = System.getProperty(configProfile + ".system.port");
-        sysContextRoot = (configProfile.equals("development")) ? 
-                             System.getProperty(configProfile + ".system.context.root") : "";
-        systemUrl = "http://localhost:" + systemPort + "/system" + sysContextRoot + "/property/";
+        Response response = this.getResponse(baseUrl + "/systems/" + systemHost);
+        this.assertResponse(baseUrl, response);
         
-        String userPassword = System.getProperty(configProfile + ".system.username") + ":"
-        		              + System.getProperty(configProfile + ".system.password");
-		authHeader = "Basic "
-                + Base64.getEncoder().encodeToString(userPassword .getBytes());
-
-        client = ClientBuilder.newClient();
-    }
-
-    @Test
-    public void testGetSystemProperties() {
-        Response queryResponse = this.getResponse(queryUrl + "systems/localhost", null);
-        this.assertResponse(queryUrl + "systems/localhost", queryResponse);
-
-        JsonObject jsonFromQuery = queryResponse.readEntity(JsonObject.class);
-        String osNameFromQuery = jsonFromQuery.getString("os.name");
-        String osArchFromQuery = jsonFromQuery.getString("os.arch");
-        String javaVersionFromQuery = jsonFromQuery.getString("java.version");
-        String javaVendorFromQuery = jsonFromQuery.getString("java.vendor");
-
-        Response osNameSysResponse = this.getResponse(systemUrl + "os.name", authHeader);
-        Response osArchSysResponse = this.getResponse(systemUrl + "os.arch", authHeader);
-        Response javaVersionSysResponse = this.getResponse(systemUrl + "java.version", authHeader);
-        Response javaVendorSysResponse = this.getResponse(systemUrl + "java.vendor", authHeader);
-
-        String osNameFromSystem = osNameSysResponse.readEntity(String.class);
-        String osArchFromSystem = osArchSysResponse.readEntity(String.class);
-        String javaVersionFromSystem = javaVersionSysResponse.readEntity(String.class);
-        String javaVendorFromSystem = javaVendorSysResponse.readEntity(String.class);
-
-        this.assertProperty("os.name", osNameFromQuery, osNameFromSystem);
-        this.assertProperty("os.arch", osArchFromQuery, osArchFromSystem);
-        this.assertProperty("java.version", javaVersionFromQuery, javaVersionFromSystem);
-        this.assertProperty("java.vendor", javaVendorFromQuery, javaVendorFromSystem);
-
-        queryResponse.close();
-        osNameSysResponse.close();
-        osArchSysResponse.close();
-        javaVersionSysResponse.close();
-        javaVendorSysResponse.close();
-    }
-
-    @Test
-    public void testGetAllConfig() {
-        Response response = this.getResponse(queryUrl + "config", null);
-        this.assertResponse(queryUrl + "config", response);
+        JsonObject jsonObj = response.readEntity(JsonObject.class);
+        assertNotNull(jsonObj.getString("os.name"), "os.name is null");
+        assertNotNull(jsonObj.getString("os.arch"), "os.arch is null");
+        assertNotNull(jsonObj.getString("java.version"), "java.version is null");
+        assertNotNull(jsonObj.getString("java.vendor"), "java.vendor is null");
 
         response.close();
     }
+    // end::testQuerySystem[]
 
+
+    // tag::testQueryConfigContact[]
     @Test
-    public void testGetContactConfig() {
-        Response response = this.getResponse(queryUrl + "config/contact", null);
-        this.assertResponse(queryUrl + "config/contact", response);
+    public void testQueryConfigContact() {
 
-        JsonObject jsonObject = response.readEntity(JsonObject.class);
-        String expectedValue = (configProfile.equals("development")) ? "alice" : "admin";
-        String actualValue = jsonObject.getString("Value");
-        assertEquals(expectedValue + "@ol.guides.com", actualValue, 
-                     "Values of property query.contactEmail does not match");
-
+        Response response = this.getResponse(baseUrl + "/config/contact");
+        this.assertResponse(baseUrl, response);
+        
+        JsonObject json = response.readEntity(JsonObject.class);
+        assertEquals(101, json.getInt("SourceOrdinal"), "SourceOrdinal is not 101.");
+        assertEquals("alice@ol.guides.com", json.getString("Value"), "Value is wrong.");
+        String source = json.getString("SourceName");
+        assertTrue(source.contains("microprofile-config-development.properties"),
+                   "SourceName is not right.");
+        
         response.close();
     }
+    // end::testQueryConfigContact[]
 
+    // tag::testQueryConfig[]
     @Test
-    public void testGetSystemConfig() {
-        Response response = this.getResponse(queryUrl + "config/system", null);
-        this.assertResponse(queryUrl + "config/system", response);
+    public void testQueryConfig() {
 
-        JsonObject jsonObject = response.readEntity(JsonObject.class);
-        String userPassword = jsonObject.getString("system.userPassword");
-        String contextRoot = jsonObject.getString("system.contextRoot");
-        int port = jsonObject.getInt("system.httpPort");
+        Response response = this.getResponse(baseUrl + "/config");
+        this.assertResponse(baseUrl, response);
 
-        assertEquals(System.getProperty(configProfile + ".system.username") + ":" 
-                     + System.getProperty(configProfile + ".system.password"), userPassword, 
-                     "Values of property system.userPassword does not match");
-        assertEquals("system" + sysContextRoot, contextRoot, 
-                     "Values of property system.contextRoot does not match");
-        assertEquals(Integer.valueOf(System.getProperty(configProfile + ".system.port")), port, 
-                     "Values of property system.httpPort does not match");
-
+        JsonObject json = response.readEntity(JsonObject.class);
+        JsonObject props = json.getJsonObject("ConfigProperties");
+        assertNotNull(props, "ConfigProperties is null.");
+        String contactEmail = props.getString("query.contactEmail");
+        assertTrue(contactEmail.contains("ol.guides.com"), "contactEmail is wrong.");
+        JsonObject sources = json.getJsonObject("ConfigSources");
+        assertNotNull(sources, "ConfigSources is null.");
+        assertEquals(300, sources.getInt("EnvConfigSource"),
+            "EnvConfigSource is not 300.");
+        assertEquals(400, sources.getInt("SysPropConfigSource"),
+            "SysPropConfigSource is not 400.");
+        assertEquals(500, sources.getInt("server.xml.variables.config.source"),
+             "server.xml.variables.config.source is not 500.");
         response.close();
     }
+    // end::testQueryConfig[]
 
-    // tag::javadoc[]
-    /**
-     * <p>
-     * Returns response information from the specified URL.
-     * </p>
-     *
-     * @param url - target URL.
-     * @param authHeader - authorization request header, if needed.
-     * @return Response object with the response from the specified URL.
-     */
-    // end::javadoc[]
-    private Response getResponse(String url, String authHeader) {
-        if (authHeader != null) {
-            return client.target(url).request().header("Authorization", authHeader).get();
-        }
+    // tag::testQueryConfigSystem[]
+    @Test
+    public void testQueryConfigSystem() {
+
+        Response response = this.getResponse(baseUrl + "/config/system");
+        this.assertResponse(baseUrl, response);
+        
+        JsonObject json = response.readEntity(JsonObject.class);
+        assertNotNull(json.getString("system.userPassword"), "system.userPassword is null.");
+        assertTrue(json.getInt("system.httpPort") > 9000, "system.httpPort is wrong.");
+        assertNotNull(json.getString("system.user"), "system.user is null.");
+        assertNotNull(json.getString("system.user"), "system.user is null.");
+        assertNotNull(json.getString("system.password"), "system.password is null.");
+        response.close();
+    }
+    // end::testQueryConfigSystem[]
+    
+    
+    // tag::testUnknownHost[]
+    @Test
+    public void testUnknownHost() {
+        Response response = this.getResponse(baseUrl + "/systems/unknown");
+        this.assertResponse(baseUrl, response);
+        
+        JsonObject json = response.readEntity(JsonObject.class);
+        assertEquals("Failed to reach the client unknown.", json.getString("fail"),
+            "Fail message is wrong.");
+        response.close();
+    }
+    // end::testUnknownHost[]
+    
+
+    private Response getResponse(String url) {
         return client.target(url).request().get();
     }
 
-    // tag::javadoc[]
-    /**
-     * <p>
-     * Asserts that the given URL has the correct response code of 200.
-     * </p>
-     *
-     * @param url      - target URL.
-     * @param response - response received from the target URL.
-     */
-    // end::javadoc[]
     private void assertResponse(String url, Response response) {
         assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
-    }
-
-    // tag::javadoc[]
-    /**
-     * Asserts that the specified JVM system property is equivalent in both the
-     * system and inventory services.
-     *
-     * @param propertyName - name of the system property to check.
-     * @param hostname     - name of JVM's host.
-     * @param expected     - expected name.
-     * @param actual       - actual name.
-     */
-    // end::javadoc[]
-    private void assertProperty(String propertyName, String expected, String actual) {
-        assertEquals(expected, actual, "JVM system property [" + propertyName + "] "
-                        + "in the system service does not match the one stored in "
-                        + "the query service for localhost");
     }
 
 }
