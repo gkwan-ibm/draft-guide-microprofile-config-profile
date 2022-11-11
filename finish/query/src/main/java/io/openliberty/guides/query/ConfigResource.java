@@ -38,11 +38,15 @@ public class ConfigResource {
     private Config config;
     // end::config[]
 
-    // tag::configValue[]
+    // tag::contactEmail[]
     @Inject
+    // tag::queryContactEmail[]
     @ConfigProperty(name = "query.contactEmail")
+    // end::queryContactEmail[]
+    // tag::configValue[]
     private ConfigValue contactConfigValue;
     // end::configValue[]
+    // end::contactEmail[]
     
     // tag::configSystemBean[]
     // tag::inject[]

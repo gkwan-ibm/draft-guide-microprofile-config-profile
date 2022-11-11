@@ -338,9 +338,7 @@ query/microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` properties to the [hotspot file=0]`microprofile-config-development.properties` file.
-
-The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the `admin` default value if the expression doesn't find a value.
+Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` properties. The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the `admin` default value if the expression doesn't find a value.
 
 
 Implement the `/query/config` and `/query/config/contact` endpoints in the `query` service to retrieve configuration information by MicroProfile Config APIs.
@@ -349,7 +347,7 @@ Implement the `/query/config` and `/query/config/contact` endpoints in the `quer
 [role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `ConfigResource` class.#
-`src/main/java/io/openliberty/guides/query/ConfigResource.java`
+`query/src/main/java/io/openliberty/guides/query/ConfigResource.java`
 ----
 
 ConfigResource.java
@@ -358,9 +356,9 @@ ConfigResource.java
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
 ----
 
-Inject the [hotspot=configValue file=1]`query.contactEmail` property as usual, only this time define the type as `ConfigValue`. 
+Inject the [hotspot=contactEmail file=1]`query.contactEmail` property as usual, only this time define the type as `ConfigValue`. 
 
-The [hotspot=configValue file=1]`ConfigValue` metadata object holds additional information after the lookup of the [hotspot=configValue file=1]`query.contactEmail` property. The [hotspot=getSourceName file=1]`getSourceName()` method determines which ConfigSource has the highest ordinal for the specified property. The [hotspot=getSourceOrdinal file=1]`getSourceOrdinal()` method returns the ordinal value of the ConfigSource that loaded the property lookup. The [hotspot=getValue file=1]`getValue()` methods returns the value of the config property.
+The [hotspot=configValue file=1]`ConfigValue` metadata object holds additional information after the lookup of the [hotspot=queryContactEmail file=1]`query.contactEmail` property. The [hotspot=getSourceName file=1]`getSourceName()` method determines which ConfigSource has the highest ordinal for the specified property. The [hotspot=getSourceOrdinal file=1]`getSourceOrdinal()` method returns the ordinal value of the ConfigSource that loaded the property lookup. The [hotspot=getValue file=1]`getValue()` methods returns the value of the config property.
 
 Inject the [hotspot=config file=1]`Config` metadata object. 
 
