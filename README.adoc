@@ -249,7 +249,7 @@ Property expressions provide a way to embed expression segments in property valu
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the `microprofile-config-development.properties` file.#
-`src/main/resources/META-INF/microprofile-config-development.properties`
+`query/src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
 microprofile-config-development.properties
