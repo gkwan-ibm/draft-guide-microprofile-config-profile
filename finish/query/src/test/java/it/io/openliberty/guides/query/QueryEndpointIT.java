@@ -70,13 +70,14 @@ public class QueryEndpointIT {
         JsonObject json = response.readEntity(JsonObject.class);
         String value = json.getString("Value");
         assertTrue(value.contains("ol.guides.com"), "Value is wrong.");
+        int ordinal = json.getInt("SourceOrdinal");
         String source = json.getString("SourceName");
         if (value.contains("alice")) {
-            assertEquals(101, json.getInt("SourceOrdinal"), "SourceOrdinal is greater than 101.");
+            assertEquals(101, ordinal, "SourceOrdinal is greater than 101.");
             assertTrue(source.contains("microprofile-config-development.properties"),
                    "SourceName is not right.");
         } else {
-            assertEquals(100, json.getInt("SourceOrdinal"), "SourceOrdinal is less than 100.");
+            assertEquals(100, ordinal, "SourceOrdinal is less than 100.");
             assertTrue(source.contains("microprofile-config.properties"),
                     "SourceName is not right.");
         }
