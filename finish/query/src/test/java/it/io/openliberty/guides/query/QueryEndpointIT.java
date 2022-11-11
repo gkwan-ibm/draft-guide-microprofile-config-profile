@@ -27,11 +27,10 @@ import jakarta.ws.rs.core.Response;
 
 public class QueryEndpointIT {
 
+    private static String port = System.getProperty("http.port");
+    private static String baseUrl = "http://localhost:" + port + "/query";
+    private static String systemHost = System.getProperty("system.host");
 
-	private static String port = System.getProperty("http.port");
-	private static String baseUrl = "http://localhost:" + port + "/query";
-	private static String systemHost = System.getProperty("system.host");
-	
     private static Client client;
 
     @BeforeEach
@@ -41,7 +40,7 @@ public class QueryEndpointIT {
 
     @AfterEach
     public void teardown() {
-    	client.close();
+        client.close();
     }
 
     // tag::testQuerySystem[]
@@ -61,7 +60,6 @@ public class QueryEndpointIT {
     }
     // end::testQuerySystem[]
 
-
     // tag::testQueryConfigContact[]
     @Test
     public void testQueryConfigContact() {
@@ -75,7 +73,7 @@ public class QueryEndpointIT {
         String source = json.getString("SourceName");
         assertTrue(source.contains("microprofile-config-development.properties"),
                    "SourceName is not right.");
-        
+
         response.close();
     }
     // end::testQueryConfigContact[]
@@ -121,8 +119,7 @@ public class QueryEndpointIT {
         response.close();
     }
     // end::testQueryConfigSystem[]
-    
-    
+
     // tag::testUnknownHost[]
     @Test
     public void testUnknownHost() {
@@ -135,7 +132,6 @@ public class QueryEndpointIT {
         response.close();
     }
     // end::testUnknownHost[]
-    
 
     private Response getResponse(String url) {
         return client.target(url).request().get();
