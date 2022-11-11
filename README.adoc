@@ -295,7 +295,9 @@ query/microprofile-config-development.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
 ----
 
-Add the [hotspot=properties file=0]`system.properties` property that contains a list of system properties that are separated by commas to the [hotspot file=0]`microprofile-config-development.properties` file.
+Add the [hotspot=properties file=0]`system.properties` property that contains a list of system properties that are separated by commas.
+
+Next, update the `/query/systems/{hostname}` endpoint to list more system properties.
 
 // file 1
 [role="code_command hotspot file=1", subs="quotes"]
@@ -314,9 +316,7 @@ Inject the [hotspot=systemPropertiesProperty file=1]`system.properties` configur
 
 Then, modify the [hotspot=getSystemPropertiesMethod file=1]`getSystemProperties()` method. Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retrieve all the specified property values from the `systemClient` REST client.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Alternatively, you can type `r` and press Enter in the command-line session where you ran the `query` service to restart the server .
-
-Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the specified system properties of your local JVM.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the specified system properties in JSON format.
 
 // ===========================================================================================
 == Using configuration source APIs
