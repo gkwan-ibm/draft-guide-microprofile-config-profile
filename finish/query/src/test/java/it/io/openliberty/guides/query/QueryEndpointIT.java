@@ -68,12 +68,18 @@ public class QueryEndpointIT {
         this.assertResponse(baseUrl, response);
         
         JsonObject json = response.readEntity(JsonObject.class);
-        assertEquals(101, json.getInt("SourceOrdinal"), "SourceOrdinal is not 101.");
-        assertEquals("alice@ol.guides.com", json.getString("Value"), "Value is wrong.");
+        String value = json.getString("Value");
+        assertTrue(value.contains("ol.guides.com"), "Value is wrong.");
         String source = json.getString("SourceName");
-        assertTrue(source.contains("microprofile-config-development.properties"),
+        if (value.contains("alice")) {
+            assertEquals(101, json.getInt("SourceOrdinal"), "SourceOrdinal is greater than 101.");
+            assertTrue(source.contains("microprofile-config-development.properties"),
                    "SourceName is not right.");
-
+        } else {
+            assertEquals(100, json.getInt("SourceOrdinal"), "SourceOrdinal is less than 100.");
+            assertTrue(source.contains("microprofile-config.properties"),
+                    "SourceName is not right.");
+        }
         response.close();
     }
     // end::testQueryConfigContact[]
