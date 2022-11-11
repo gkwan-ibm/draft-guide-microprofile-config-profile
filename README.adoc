@@ -252,7 +252,7 @@ Property expressions provide a way to embed expression segments in property valu
 `query/src/main/resources/META-INF/microprofile-config-development.properties`
 ----
 
-microprofile-config-development.properties
+query/microprofile-config-development.properties
 [source, properties, linenums, role="code_column hide_tags=properties,contactEmail"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
