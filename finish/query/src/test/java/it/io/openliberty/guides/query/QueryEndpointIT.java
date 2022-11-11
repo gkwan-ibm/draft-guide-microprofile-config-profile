@@ -112,11 +112,12 @@ public class QueryEndpointIT {
         this.assertResponse(baseUrl, response);
         
         JsonObject json = response.readEntity(JsonObject.class);
-        assertNotNull(json.getString("system.userPassword"), "system.userPassword is null.");
         assertTrue(json.getInt("system.httpPort") > 9000, "system.httpPort is wrong.");
         assertNotNull(json.getString("system.user"), "system.user is null.");
         assertNotNull(json.getString("system.user"), "system.user is null.");
         assertNotNull(json.getString("system.password"), "system.password is null.");
+        assertNotNull(json.getString("system.userPassword"),
+            "system.userPassword is null.");
         response.close();
     }
     // end::testQueryConfigSystem[]
