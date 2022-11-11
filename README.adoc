@@ -360,13 +360,11 @@ Inject the [hotspot=contactEmail file=1]`query.contactEmail` property as usual, 
 
 The [hotspot=configValue file=1]`ConfigValue` metadata object holds additional information after the lookup of the [hotspot=queryContactEmail file=1]`query.contactEmail` property. The [hotspot=getSourceName file=1]`getSourceName()` method determines which ConfigSource has the highest ordinal for the specified property. The [hotspot=getSourceOrdinal file=1]`getSourceOrdinal()` method returns the ordinal value of the ConfigSource that loaded the property lookup. The [hotspot=getValue file=1]`getValue()` methods returns the value of the specified property.
 
-Inject the [hotspot=config file=1]`Config` metadata object. 
+Inject the [hotspot=config file=1]`Config` metadata object. You can use it to resolve the property value by searching through all configured ConfigSources.
 
 The [hotspot=getConfigSources file=1]`getConfigSources()` method returns all the registered configuration sources for the running service. The [hotspot=getPropertyNames file=1]`getPropertyNames()` method finds all configuration property names by searching through all the registered ConfigSources.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Alternatively, you can type `r` and press Enter in the command-line session where you ran the `query` service to restart the server .
-
-Point your browser to the http://localhost:9085/query/config/contact URL. You see the source name, source ordinal, and value of the `query.contactEmail` propterty. 
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/config/contact URL. You see the source name, source ordinal, and value of the `query.contactEmail` property.
 
 Next, point your browser to the http://localhost:9085/query/config URL. You see all registered configuration sources and properties of the running `query` service.
 
