@@ -49,12 +49,10 @@ public class QueryEndpointIT {
 
         Response response = this.getResponse(baseUrl + "/systems/" + systemHost);
         this.assertResponse(baseUrl, response);
-        
+
         JsonObject jsonObj = response.readEntity(JsonObject.class);
         assertNotNull(jsonObj.getString("os.name"), "os.name is null");
-        assertNotNull(jsonObj.getString("os.arch"), "os.arch is null");
         assertNotNull(jsonObj.getString("java.version"), "java.version is null");
-        assertNotNull(jsonObj.getString("java.vendor"), "java.vendor is null");
 
         response.close();
     }

@@ -75,7 +75,7 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-\
+
             <properties>
                 <system.service.root>localhost:9081</system.service.root>
                 <!-- tag::developmentProperties[] -->
