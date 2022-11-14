@@ -63,7 +63,7 @@
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.7.1</version>
             </plugin>
         </plugins>
     </build>
@@ -73,7 +73,7 @@
         <profile>
             <id>development</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
 
             <properties>
@@ -125,7 +125,7 @@
         <profile>
             <id>testing</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
     </profiles>

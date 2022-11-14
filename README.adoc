@@ -7,7 +7,7 @@
 //   IBM Corporation
 :projectid: microprofile-config-profile
 :page-layout: guide-multipane
-:page-duration: 30 minutes
+:page-duration: 20 minutes
 :page-releasedate: 2022-12-31
 :page-description: Learn how to use MicroProfile Config Profiles to provide configurations for different environments and development stages.
 :page-tags: ['MicroProfile']
@@ -36,8 +36,6 @@ Learn how to use MicroProfile Config Profiles to provide configurations for diff
 
 You'll learn how to configure multiple environments into a microservice by providing different sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile^] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#_microprofile_config[MicroProfile Config^]. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
-Furthermore, you'll learn to define properties with expressions, retrieve multi-valued config property values as a list, retrieve details about the underlying configuration of your microservices, and aggregate related properties into a single property class.
-
 The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll provide the `query` service with different configurations using MicroProfile Config Profiles, so that it can access different environments of the `system` service.
 
 // =================================================================================================
@@ -47,8 +45,6 @@ The application that you will be working with is a `query` service. It fetches p
 [role=command]
 include::{common-includes}/gitclone.adoc[]
 
-// =================================================================================================
-// Trying the application
 // =================================================================================================
 == Trying the application
 
@@ -118,21 +114,35 @@ After you are finished checking out the application, stop the `system` service b
 [role='command']
 ```
 mvn liberty:stop
+
 ```
 
-Then, restart the `system` service in `development` environment by running the following Maven goal from the `start/system` directory:
+// =================================================================================================
+== Switching to development environment
+
+Restart the `system` service in `development` environment by running the following Maven goal from the `start/system` directory:
 
 [role='command']
 ```
-mvn -P development liberty:run
+mvn liberty:dev
 ```
+
+After you see the following message, your application server in dev mode is ready:
+
+[source, role="no_copy"]
+----
+**************************************************
+*     Liberty is running in dev mode.
+----
 
 Now, the Maven properties from the [hotspot=development file=2]`development` profile override the default configuration values from the `system/server.xml` file. You can find out from the [hotspot file=2]`system/pom.xml` file that the `system` service is now running on port [hotspot=port file=2]`9081` with context root [hotspot=context.root file=2]`system/dev`. In addition, the credentials for the user registry are updated with the new username [hotspot=username file=2]`alice` and the new password [hotspot=password file=2]`alicepwd`.
 
+Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message: `{"fail":"Failed to reach the client localhost."}`.
+
+It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot=system file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service at the `testing` environment.
+
 // =================================================================================================
-// Adding configuration profile
-// =================================================================================================
-== Adding configuration profile
+== Creating configuration profile in properties level
 
 // file 0
 query/microprofile-config.properties
@@ -143,14 +153,7 @@ include::start/query/src/main/resources/META-INF/microprofile-config.properties[
 
 MicroProfile Config Profiles allow configurations for different environments such as development, testing, and production while only a single profile is active. The active profile is specified by using the `mp.config.profile` property, which can be set in any of the https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configsource[ConfigSources^] or at application startup. Once it is set, the corresponding set of configuration properties that are associated with the active profile are used. 
 
-Try to access the http://localhost:9085/query/systems/localhost URL. The `query` service returns the message: `{"fail":"Failed to reach the client localhost."}`.
-
-It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot=system file=0]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service at the `testing` environment.
-
-
 Now, navigate to the `start` directory to create configuration profile for the `query` service in different ways.
-
-=== Creating configuration profile in properties level
 
 You can provide configuration properties for the `development` environment at the properties level by setting its name in the following format: `%<mp.config.profile>.<original property name>`. 
 
@@ -189,7 +192,8 @@ With setting `mp.config.profile` to `development`, each `%development.*` propert
 
 Now, you can access the application by the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format.
 
-=== Creating configuration profile using ConfigSource
+// =================================================================================================
+== Creating configuration profile using ConfigSource
 
 You can also provide multiple ConfigSources with the names formatted as `microprofile-config-<mp.config.profile>.properties` under the `META-INF` directory.
 
@@ -236,185 +240,6 @@ Because the active profile is `development`, the [hotspot file=0]`microprofile-c
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Go to the http://localhost:9085/query/systems/localhost URL to check out the application again. You see the current OS and Java version in JSON format.
 
-// =================================================================================================
-// Defining property with expressions
-// =================================================================================================
-== Defining property with expressions
-
-Property expressions provide a way to embed expression segments in property values by using the `${...}` sequence. You can include the value of a configuration property in another configuration property by using the `${prop}` syntax. Additionally, you can implement expressions with the following syntax:
-
-* `${prop:default}` - Provides a `default` value after the `:` character if the expression doesn't find a value for the `prop` property.
-
-* `${prop${compose}}` - Composed expressions where inner expressions are resolved first.
-
-* `${prop1}${prop2}` - Multiple expressions.
-
-// file 0
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Replace the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
-----
-
-query/microprofile-config-development.properties
-[source, properties, linenums, role="code_column hide_tags=properties,roleAndQuery"]
-----
-include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
-----
-
-Add the [hotspot=userPassword file=0]`system.userPassword` configuration property to the `microprofile-config-development.properties` file. The [hotspot=userPassword file=0]`system.userPassword` property is expanded to `alice:alicepwd`.
-
-// file 1
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Replace the `SystemResource` class.#
-`query/src/main/java/io/openliberty/guides/query/SystemResource.java`
-----
-
-SystemResource.java
-[source, java, linenums, role="code_column hide_tags=copyright"]
-----
-include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
-----
-
-Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=1]`system.userPassword` property, and use the [hotspot=authHeader file=1]`systemUserPassword` variable to construct the authorization header.
-
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. You see the current OS and Java version in JSON format.
-
-// ===========================================================================================
-== Retrieving property as a list
-
-Configuration values are purely Strings. MicroProfile Config API has built-in converters that automatically converts configured Strings into target types and retrieves multi-valued properties as lists.
-
-// file 0
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Replace the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
-----
-
-query/microprofile-config-development.properties
-[source, properties, linenums, role="code_column hide_tags=roleAndQuery"]
-----
-include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
-----
-
-Add the [hotspot=properties file=0]`system.properties` property that contains a list of system properties that are separated by commas.
-
-Next, update the `/query/systems/{hostname}` endpoint to list more system properties.
-
-// file 1
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Replace the `SystemResource` class.#
-`query/src/main/java/io/openliberty/guides/query/SystemResource.java`
-----
-
-SystemResource.java
-[source, java, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
-----
-
-Inject the [hotspot=systemPropertiesProperty file=1]`system.properties` configuration property as a `List<String>` type.
-
-Then, modify the [hotspot=getSystemPropertiesMethod file=1]`getSystemProperties()` method. Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retrieve all the specified property values from the `systemClient` REST client.
-
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the specified system properties in JSON format.
-
-// ===========================================================================================
-== Using configuration source APIs
-
-MicroProfile Config provides configuration source https://openliberty.io/docs/latest/reference/javadoc/microprofile-5.0-javadoc.html?package=org/eclipse/microprofile/config/package-frame.html&class=org/eclipse/microprofile/config/package-summary.html[APIs^] for retrieving details about configuration properties. You can use the `ConfigValue` API class to retrieve various useful information about a single specified configuration property. Alternatively, you can use the `Config` API class to look up the metadata of all underlying configuration properties. 
-
-You will implement endpoints that retrieve information specific to this guide by using the two API classes.
-
-// file 0
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Replace the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
-----
-
-query/microprofile-config-development.properties
-[source, properties, linenums, role="code_column"]
-----
-include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
-----
-
-Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` properties. The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the `admin` default value if the expression doesn't find a value.
-
-
-Implement the `/query/config` and `/query/config/contact` endpoints in the `query` service to retrieve configuration information by MicroProfile Config APIs.
- 
-// file 1
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Create the `ConfigResource` class.#
-`query/src/main/java/io/openliberty/guides/query/ConfigResource.java`
-----
-
-ConfigResource.java
-[source, java, linenums, role="code_column hide_tags=copyright,systemConfig,getSystemConfig"]
-----
-include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
-----
-
-Inject the [hotspot=contactEmail file=1]`query.contactEmail` property as usual, only this time define the type as `ConfigValue`. 
-
-The [hotspot=configValue file=1]`ConfigValue` metadata object holds additional information after the lookup of the [hotspot=queryContactEmail file=1]`query.contactEmail` property. The [hotspot=getSourceName file=1]`getSourceName()` method determines which ConfigSource has the highest ordinal for the specified property. The [hotspot=getSourceOrdinal file=1]`getSourceOrdinal()` method returns the ordinal value of the ConfigSource that loaded the property lookup. The [hotspot=getValue file=1]`getValue()` methods returns the value of the specified property.
-
-Inject the [hotspot=config file=1]`Config` metadata object. You can use it to resolve the property value by searching through all configured ConfigSources.
-
-The [hotspot=getConfigSources file=1]`getConfigSources()` method returns all the registered configuration sources for the running service. The [hotspot=getPropertyNames file=1]`getPropertyNames()` method finds all configuration property names by searching through all the registered ConfigSources.
-
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/config/contact URL. You see the source name, source ordinal, and value of the `query.contactEmail` property.
-
-Next, point your browser to the http://localhost:9085/query/config URL. You see all registered configuration sources and properties of the running `query` service.
-
-// ===========================================================================================
-== Aggregating configuration properties into a CDI bean
-
-Microprofile Config provides a way to aggregate configuration properties that start with the same prefix into a single property class through the `@ConfigProperties` annotation.
-
-Define a CDI bean for the configuration properties that share the common prefix `system.`.
-
-// file 0
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Create the `ConfigSystemBean` class.#
-`query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java`
-----
-
-ConfigSystemBean.java
-[source, java, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java[]
-----
-
-Annotate the [hotspot=ConfigSystemBean file=0]`ConfigSystemBean` class with the [hotspot=prefix file=0]`@ConfigProperties` annotation. The [hotspot=prefix file=0]`prefix` attribute specifies the common prefix of the configuration properties to `system`.
-
-
-Use the `ConfigSystemBean` class in the `ConfigResource` class.
-
-// file 1
-[role="code_command hotspot file=1", subs="quotes"]
-----
-#Replace the `ConfigResource` class.#
-`query/src/main/java/io/openliberty/guides/query/ConfigResource.java`
-----
-
-ConfigResource.java
-[source, java, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
-----
-
-The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@ConfigProperties` annotations inject the `ConfigSystemBean` CDI bean to the [hotspot=systemConfig file=1]`systemConfig` field variable.
-
-The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the [hotspot=configSystemBean file=1]`systemConfig` bean to retrieve the values of the [hotspot=systemProperties file=1]`system.*` configuration properties without having to inject them one by one.
-
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
 
 // ===========================================================================================
 == Implementing test cases
@@ -445,12 +270,6 @@ See the following descriptions of the test cases:
 
 * [hotspot=testQuerySystem file=0]`testQuerySystem()` verifies the `/query/systems/{hostname}` endpoint.
 
-* [hotspot=testQueryConfigContact file=0]`testQueryConfigContact()` verifies the `/query/config/contact` endpoint.
-
-* [hotspot=testQueryConfig file=0]`testQueryConfig()` verifies the `/query/config` endpoint.
-
-* [hotspot=testQueryConfigSystem file=0]`testQueryConfigSystem()` verifies the `/query/config/system` endpoint.
-
 * [hotspot=testUnknownHost file=0]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system properties is correctly handled with a fail message.
 
 **Running the tests**
@@ -463,11 +282,11 @@ Because you started Open Liberty in dev mode, you can run the tests by pressing 
  T E S T S
 -------------------------------------------------------
 Running it.io.openliberty.guides.query.QueryEndpointIT
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.703 s - in it.io.openliberty.guides.query.QueryEndpointIT
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.703 s - in it.io.openliberty.guides.query.QueryEndpointIT
 
 Results:
 
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 When you are done checking out the application in `development` environment, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `query` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `query` services:
@@ -487,7 +306,6 @@ mvn -pl system liberty:stop
 mvn -pl backendServices liberty:stop
 ```
 endif::[]
-
 
 // ===========================================================================================
 == Testing the application
@@ -549,11 +367,11 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
  T E S T S
 -------------------------------------------------------
 Running it.io.openliberty.guides.query.QueryEndpointIT
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.706 s - in it.io.openliberty.guides.query.QueryEndpointIT
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.706 s - in it.io.openliberty.guides.query.QueryEndpointIT
 
 Results:
 
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 
 ----
 
