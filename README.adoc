@@ -232,7 +232,7 @@ Define the [hotspot=system file=0]`system.*` properties in the `microprofile-con
 query/microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=development"]
 ----
-include::staging/query/src/main/resources/META-INF/microprofile-config.properties[]
+include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 Remove all the `%development.*` properties from the `microprofile-config.properties` file.
