@@ -71,13 +71,11 @@
     <profiles>
         <!-- tag::development[] -->
         <profile>
-        	  <!-- tag::development[] -->
             <id>development</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-        	  <!-- end::development[] -->
-
+\
             <properties>
                 <system.service.root>localhost:9081</system.service.root>
                 <!-- tag::developmentProperties[] -->
