@@ -14,7 +14,6 @@ package io.openliberty.guides.query;
 
 import java.net.URI;
 import java.util.Base64;
-import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -40,24 +39,21 @@ public class SystemResource {
     private String systemHttpPort;
 
     @Inject
-    @ConfigProperty(name = "system.userPassword")
-    private String systemUserPassword;
+    @ConfigProperty(name = "system.user")
+    private String systemUser;
+
+    @Inject
+    @ConfigProperty(name = "system.password")
+    private String systemPassword;
 
     @Inject
     @ConfigProperty(name = "system.contextRoot")
     private String systemContextRoot;
 
-    // tag::systemPropertiesProperty[]
-    @Inject
-    @ConfigProperty(name = "system.properties")
-    private List<String> systemProperties;
-    // end::systemPropertiesProperty[]
-
     @GET
     @Path("/{hostname}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    // tag::getSystemPropertiesMethod[]
     public Properties getSystemProperties(@PathParam("hostname") String hostname) {
 
         SystemClient systemClient = null;
@@ -76,15 +72,14 @@ public class SystemResource {
             return p;
         }
 
+        String systemUserPassword = systemUser + ":" + systemPassword;
         String authHeader = "Basic "
                + Base64.getEncoder().encodeToString(systemUserPassword.getBytes());
 
         try {
-            // tag::systemProperties[]
-            for (String property : systemProperties) {
-                p.put(property, systemClient.getProperty(authHeader, property));
-            }
-            // end::systemProperties[]
+            p.put("hostname", hostname);
+            p.put("os.name", systemClient.getProperty(authHeader, "os.name"));
+            p.put("java.version", systemClient.getProperty(authHeader, "java.version"));
         } catch (Exception e) {
             p.put("fail", "Failed to reach the client " + hostname + ".");
             return p;
@@ -97,6 +92,5 @@ public class SystemResource {
         }
         return p;
     }
-    // end::getSystemPropertiesMethod[]
 
 }

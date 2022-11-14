@@ -143,7 +143,7 @@ Try to access the http://localhost:9085/query/systems/localhost URL. The `query`
 query/microprofile-config.properties
 [source, Properties, linenums, role='code_column']
 ----
-include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
+include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 It is caused by the `system` service is started with the `development` profile, but the current configuration properties defined in the [hotspot=system file=1]`META-INF/microprofile-config.properties` file at the `query` service are the values for accessing the `system` service at the `testing` environment.

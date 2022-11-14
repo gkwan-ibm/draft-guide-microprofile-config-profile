@@ -45,7 +45,7 @@ public class SystemResource {
     @Inject
     @ConfigProperty(name = "system.password")
     private String systemPassword;
-    
+
     @Inject
     @ConfigProperty(name = "system.contextRoot")
     private String systemContextRoot;
@@ -77,6 +77,7 @@ public class SystemResource {
                + Base64.getEncoder().encodeToString(systemUserPassword.getBytes());
 
         try {
+            p.put("hostname", hostname);
             p.put("os.name", systemClient.getProperty(authHeader, "os.name"));
             p.put("java.version", systemClient.getProperty(authHeader, "java.version"));
         } catch (Exception e) {
