@@ -325,7 +325,7 @@ include::{common-includes}/os-tabs.adoc[]
 
 [.tab_content.mac_section.linux_section]
 --
-[role='command']
+[role="command hotspot file=0"]
 ```
 ./scripts/testApp.sh
 ```
