@@ -293,7 +293,7 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 When you are done checking out the application in `development` environment, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `query` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `query` services:
 // static guide instruction
 ifndef::cloud-hosted[]
-[role="command"]
+[role='command']
 ----
 mvn -pl system liberty:stop
 mvn -pl query liberty:stop
@@ -325,7 +325,7 @@ include::{common-includes}/os-tabs.adoc[]
 
 [.tab_content.mac_section.linux_section]
 --
-[role="code_command hotspot file=0"]
+[role='code_command']
 ```
 ./scripts/testApp.sh
 ```
