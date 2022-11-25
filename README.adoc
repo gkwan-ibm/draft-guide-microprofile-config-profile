@@ -327,6 +327,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role='code_command']
 ```
+
 ./scripts/testApp.sh
 ```
 --
