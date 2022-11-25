@@ -325,9 +325,8 @@ include::{common-includes}/os-tabs.adoc[]
 
 [.tab_content.mac_section.linux_section]
 --
-[role='code_command']
+[role='command']
 ```
-
 ./scripts/testApp.sh
 ```
 --
