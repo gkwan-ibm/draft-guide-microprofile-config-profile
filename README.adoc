@@ -72,7 +72,7 @@ system/server.xml
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-In the `testing` environment, the configuration from the [hotspot=testingProperties file=0]`pom.xml` file is used. You can find out that the [hotspot=httpEndpoint hotspot=webApplication file=1]`system` service is running on port [hotspot=test.port file=0]`9080` with context root [hotspot=test.context.root file=0]`system/test`. In addition, a basic [hotspot=user file=1]`user` registry is configured with the username [hotspot=test.username file=0]`bob` and the password [hotspot=test.password file=0]`bobpwd` as the authorized access to the resources from other services.
+In the `testing` environment, the configuration from the [hotspot=testingProperties file=0]`pom.xml` file is used. You can find out that the [hotspot=httpEndpoint hotspot=webApplication file=1]`system` service is running on port [hotspot=test.port file=0]`9082` with context root [hotspot=test.context.root file=0]`system/test`. In addition, a basic [hotspot=user file=1]`user` registry is configured with the username [hotspot=test.username file=0]`bob` and the password [hotspot=test.password file=0]`bobpwd` as the authorized access to the resources from other services.
 
 Next, open another command-line session and navigate to the `start/query` directory. 
 
@@ -107,7 +107,7 @@ include::start/query/src/main/resources/META-INF/microprofile-config.properties[
 
 Navigate to the `start` directory and check out the [hotspot=system file=2]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` host name by making a request to the `system` service at `\http://localhost:9080/system/property/{property}`.
+Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:9080/system/property/{property}`.
 
 After you are finished checking out the application, stop the `system` service by pressing `CTRL+C` in the command-line session where you ran the server. Alternatively, you can run the `liberty:stop` goal from the `start/system` directory in another shell session:
 
