@@ -65,6 +65,16 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>3.7.1</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -97,16 +107,10 @@
 
             <build>
               <plugins>
-                <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <version>2.22.2</version>
-                </plugin>
                 <!-- tag::maven-failsafe-plugin[] -->
                 <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-failsafe-plugin</artifactId>
-                  <version>2.22.2</version>
                   <configuration>
                     <systemPropertyVariables>
                       <system.service.root>${system.service.root}</system.service.root>
@@ -130,6 +134,7 @@
             </activation>
             <properties>
                 <!-- tag::testingProperties[] -->
+                <system.service.root>localhost:9082</system.service.root>
                 <!-- tag::test.port[] -->
                 <liberty.var.default.http.port>9082</liberty.var.default.http.port>
                 <!-- end::test.port[] -->
@@ -145,6 +150,22 @@
                 <!-- end::test.context.root[] -->
                 <!-- end::testingProperties[] -->
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <system.service.root>${system.service.root}</system.service.root>
+                                <system.context.root>${liberty.var.context.root}</system.context.root>
+                                <system.username>${liberty.var.default.username}</system.username>
+                                <system.password>${liberty.var.default.password}</system.password>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <!-- end::testing[] -->
 

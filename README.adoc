@@ -242,7 +242,7 @@ query/microprofile-config.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Remove all the `%development.*` properties from the `microprofile-config.properties` file.
+Remove all the `%development.*` properties and set the default production `system.*` values from the `microprofile-config.properties` file.
 
 Because the active profile is `development`, the [hotspot file=0]`microprofile-config-development.properties` file is loaded on top of the default `microprofile-config.properties` file. The [hotspot=system file=0]`system.*` properties from `microprofile-config-development.properties` file thus take precedence.
 

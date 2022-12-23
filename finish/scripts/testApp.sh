@@ -5,7 +5,7 @@ mvn -pl query clean package liberty:create liberty:install-feature liberty:deplo
 
 # tag::start[]
 mvn -pl system -P testing liberty:start
-mvn -pl query liberty:start
+mvn -pl query -Dliberty.var.mp.config.profile="testing" liberty:start
 # end::start[]
 
 # tag::test[]
