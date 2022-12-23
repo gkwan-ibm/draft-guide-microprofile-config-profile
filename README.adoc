@@ -107,7 +107,7 @@ include::start/query/src/main/resources/META-INF/microprofile-config.properties[
 
 Navigate to the `start` directory and check out the [hotspot=system file=2]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:9080/system/property/{property}`.
+Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`.
 
 After you are finished checking out the application, stop the `system` service by pressing `CTRL+C` in the command-line session where you ran the server. Alternatively, you can run the `liberty:stop` goal from the `start/system` directory in another shell session:
 
