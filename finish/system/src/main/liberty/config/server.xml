@@ -15,10 +15,10 @@
     <!-- end::port[] -->
     <variable name="default.https.port" defaultValue="9443"/>
     <!-- tag::username[] -->
-    <variable name="default.username" defaultValue="bob"/>
+    <variable name="default.username" defaultValue="admin"/>
     <!-- end::username[] -->
     <!-- tag::password[] -->
-    <variable name="default.password" defaultValue="bobpwd"/>
+    <variable name="default.password" defaultValue="adminpwd"/>
     <!-- end::password[] -->
     <!-- tag::context.root[] -->
     <variable name="context.root" defaultValue="system"/>

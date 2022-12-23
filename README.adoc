@@ -23,7 +23,7 @@
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to use MicroProfile Config Profiles to provide multiple configurations for different phases in DevOps lifecycle.
+Learn how to use MicroProfile Config Profile to provide multiple configurations for different phases in DevOps lifecycle.
 
 :win: WINDOWS
 :mac: MAC
@@ -36,7 +36,7 @@ Learn how to use MicroProfile Config Profiles to provide multiple configurations
 
 You'll learn how to configure multiple environments into a microservice by providing different sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile^] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with https://openliberty.io/docs/latest/external-configuration.html[External configuration of microservices^] and  https://openliberty.io/docs/latest/reference/feature/mpConfig-3.0.html[MicroProfile Config^]. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
-The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll provide the `query` service with different configurations using MicroProfile Config Profiles, so that it can access different environments of the `system` service.
+The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll provide the `query` service with different configurations using MicroProfile Config Profile, so that it can access different environments of the `system` service.
 
 // =================================================================================================
 // Getting Started
@@ -152,7 +152,7 @@ It is caused by the `system` service is started with the `development` profile, 
 // =================================================================================================
 == Creating configuration profile in properties level
 
-MicroProfile Config Profiles allow configurations for different environments such as development, testing, and production while only a single profile is active. The active profile is specified by using the `mp.config.profile` property, which can be set in any of the https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configsource[ConfigSources^] or at application startup. Once it is set, the corresponding set of configuration properties that are associated with the active profile are used. 
+MicroProfile Config Profile allows configurations for different environments such as development, testing, and production while only a single profile is active. The active profile is specified by using the `mp.config.profile` property, which can be set in any of the https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configsource[ConfigSources^] or at application startup. Once it is set, the corresponding set of configuration properties that are associated with the active profile are used. 
 
 Now, navigate to the `start` directory to create configuration profile for the `query` service in different ways.
 
