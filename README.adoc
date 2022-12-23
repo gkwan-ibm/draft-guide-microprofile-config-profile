@@ -72,7 +72,7 @@ system/server.xml
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-In the `testing` environment, the configuration from the [hotspot=testingProperties file=0]`pom.xml` file is used. You can find out that the [hotspot=httpEndpoint hotspot=webApplication file=1]`system` service is running on port [hotspot=port file=0]`9080` with context root [hotspot=context.root file=0]`system/test`. In addition, a basic [hotspot=user file=1]`user` registry is configured with the username [hotspot=username file=0]`bob` and the password [hotspot=password file=0]`bobpwd` as the authorized access to the resources from other services.
+In the `testing` environment, the configuration from the [hotspot=testingProperties file=0]`pom.xml` file is used. You can find out that the [hotspot=httpEndpoint hotspot=webApplication file=1]`system` service is running on port [hotspot=test.port file=0]`9080` with context root [hotspot=test.context.root file=0]`system/test`. In addition, a basic [hotspot=user file=1]`user` registry is configured with the username [hotspot=test.username file=0]`bob` and the password [hotspot=test.password file=0]`bobpwd` as the authorized access to the resources from other services.
 
 Next, open another command-line session and navigate to the `start/query` directory. 
 
