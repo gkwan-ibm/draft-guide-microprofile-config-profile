@@ -36,7 +36,7 @@ Learn how to use MicroProfile Config Profile to provide multiple configurations 
 
 You'll learn how to configure multiple environments into a microservice by providing different sets of configuration properties for each environment. From development to production and across your DevOps environments, https://download.eclipse.org/microprofile/microprofile-config-3.0/microprofile-config-spec-3.0.html#configprofile[MicroProfile Config Profile^] gives you flexibility to set and choose configuration for your microservices depending on the current project stage efficiently. This guide assumes you are familiar with https://openliberty.io/docs/latest/external-configuration.html[External configuration of microservices^] and  https://openliberty.io/docs/latest/reference/feature/mpConfig-3.0.html[MicroProfile Config^]. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
-The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll provide the `query` service with different configurations using MicroProfile Config Profile, so that it can access different environments of the `system` service.
+The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll provide the `query` service with different configurations using MicroProfile Config Profile, so that it can access the `system` service in different environments.
 
 // =================================================================================================
 // Getting Started
@@ -59,13 +59,20 @@ mvn -P testing liberty:run
 ```
 
 // file 0
+system/pom.xml
+[source, XML, linenums, role='code_column']
+----
+include::finish/system/pom.xml[]
+----
+
+// file 1
 system/server.xml
 [source, XML, linenums, role='code_column']
 ----
 include::finish/system/src/main/liberty/config/server.xml[]
 ----
 
-In the `testing` environment, the default configuration from the [hotspot=defaultConfig file=0]`server.xml` file is used. You can find out that the `system` service is running on port [hotspot=port hotspot=httpEndpoint file=0]`9080` with context root [hotspot=context.root hotspot=webApplication file=0]`system`. In addition, a basic user registry is configured with the username [hotspot=username hotspot=user file=0]`bob` and the password [hotspot=password hotspot=user file=0]`bobpwd` as the authorized access to the resources from other services.
+In the `testing` environment, the configuration from the [hotspot=testingProperties file=1]`pom.xml` file is used. You can find out that the [hotspot=httpEndpoint hotspot=webApplication file=0]`system` service is running on port [hotspot=port file=1]`9080` with context root [hotspot=context.root file=1]`system/test`. In addition, a basic [hotspot=user file=0]`user` registry is configured with the username [hotspot=username file=1]`bob` and the password [hotspot=password file=1]`bobpwd` as the authorized access to the resources from other services.
 
 Next, open another command-line session and navigate to the `start/query` directory. 
 
@@ -91,14 +98,14 @@ After you see the following message, your application server in dev mode is read
 
 Dev mode holds your command-line session to listen for file changes. Open another command-line session to continue, or open the project in your editor.
 
-// file 1
+// file 2
 query/microprofile-config.properties
 [source, Properties, linenums, role='code_column']
 ----
 include::start/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Navigate to the `start` directory and check out the [hotspot=system file=1]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
+Navigate to the `start` directory and check out the [hotspot=system file=2]`query/src/main/resources/META-INF/microprofile-config.properties` MicroProfile configuration file. This configuration file is the default ConfigSource that defines the required properties to access the `testing` environment of the `system` service.
 
 Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` host name by making a request to the `system` service at `\http://localhost:9080/system/property/{property}`.
 
