@@ -101,10 +101,10 @@
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <configuration>
                             <systemPropertyVariables>
-                                <system.service.root>${system.service.root}</system.service.root>
-                                <system.context.root>${liberty.var.context.root}</system.context.root>
-                                <system.username>${liberty.var.default.username}</system.username>
-                                <system.password>${liberty.var.default.password}</system.password>
+                                <system.service>${system.service.root}</system.service>
+                                <system.context>${liberty.var.context.root}</system.context>
+                                <system.user>${liberty.var.default.username}</system.user>
+                                <system.pwd>${liberty.var.default.password}</system.pwd>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
