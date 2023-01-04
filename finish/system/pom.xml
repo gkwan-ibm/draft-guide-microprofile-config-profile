@@ -159,7 +159,7 @@
                             <systemPropertyVariables>
                                 <system.service>${system.service.root}</system.service>
                                 <system.context>${liberty.var.context.root}</system.context>
-                                <system.user>${liberty.var.default.username}</system.use>
+                                <system.user>${liberty.var.default.username}</system.user>
                                 <system.pwd>${liberty.var.default.password}</system.pwd>
                             </systemPropertyVariables>
                         </configuration>
