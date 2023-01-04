@@ -35,8 +35,8 @@ public class SystemEndpointIT {
         String contextRoot = System.getProperty("system.context", "system");
         clusterUrl = "http://" + systemRootPath + "/" + contextRoot + "/property/";
 
-        String userPassword = System.getProperty("system.user", "bob") + ":" +
-                              System.getProperty("system.pwd", "bobpwd");
+        String userPassword = System.getProperty("system.user", "admin") + ":" +
+                              System.getProperty("system.pwd", "adminpwd");
         authHeader = "Basic " +
                      Base64.getEncoder().encodeToString(userPassword .getBytes());
     }
