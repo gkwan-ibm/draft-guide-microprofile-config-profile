@@ -31,12 +31,12 @@ public class SystemEndpointIT {
 
     @BeforeAll
     public static void setup() {
-        String systemRootPath = System.getProperty("system.service.root", "localhost:9080");
-        String contextRoot = System.getProperty("system.context.root", "system");
+        String systemRootPath = System.getProperty("system.service", "localhost:9080");
+        String contextRoot = System.getProperty("system.context", "system");
         clusterUrl = "http://" + systemRootPath + "/" + contextRoot + "/property/";
 
-        String userPassword = System.getProperty("system.username", "bob") + ":" +
-                              System.getProperty("system.password", "bobpwd");
+        String userPassword = System.getProperty("system.user", "bob") + ":" +
+                              System.getProperty("system.pwd", "bobpwd");
         authHeader = "Basic " +
                      Base64.getEncoder().encodeToString(userPassword .getBytes());
     }
