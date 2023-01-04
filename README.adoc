@@ -50,7 +50,7 @@ include::{common-includes}/gitclone.adoc[]
 
 The starting Java project, which you can find in the `start` directory, is a multi-module Maven project that's made up of the `system` and `query` microservices. Each microservice resides in its own corresponding directory, `system` and `query`. 
 
-The `system` microservice contains the two build profiles: `testing` and `development`. To start the `system` service in `testing` environment, navigate to the `start/system` directory and run the following Maven goal to build the service and deploy it to Open Liberty:
+The `system` microservice contains the three build profiles: `testing`, `development` and `production`. To start the `system` service in `testing` environment, navigate to the `start/system` directory and run the following Maven goal to build the service and deploy it to Open Liberty:
 
 [role='command']
 ```
