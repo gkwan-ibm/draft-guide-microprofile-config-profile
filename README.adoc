@@ -130,7 +130,7 @@ include::start/query/src/main/java/io/openliberty/guides/query/SystemResource.ja
 
 A [hotspot=basicRegistry file=0]`basicRegistry` element is configured in the `system` microservice. Only the registered user is authorized to access to the `system` microservice. Note that this `basicRegistry` element is a very simple case for learning purposes. For more information about the different user registries, see the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^].
 
-The `/query/systems/{hostname}` endpoint constructs the [hotspot=authHeader file=1]`authHeader` authentication header with the [hotspot=user file=1]`system.user` and [hotspot=password file=1]`system.password` properties to access the `system` microservice. 
+The `/query/systems/{hostname}` endpoint constructs the [hotspot=authHeader file=1]`authHeader` authorization header with the [hotspot=user file=1]`system.user` and [hotspot=password file=1]`system.password` properties for accessing the `system` microservice. 
 
 Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS name and Java version in JSON format. 
 
