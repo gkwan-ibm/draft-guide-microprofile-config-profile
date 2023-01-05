@@ -229,7 +229,7 @@ You will implement endpoints that retrieve information specific to this guide by
 `query/src/main/resources/META-INF/microprofile-config.properties`
 ----
 
-query/microprofile-config-development.properties
+query/microprofile-config.properties
 [source, properties, linenums, role="code_column"]
 ----
 include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
