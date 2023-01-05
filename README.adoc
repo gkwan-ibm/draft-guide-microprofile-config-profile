@@ -16,14 +16,14 @@
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 :page-seo-title: Aggregating Java microservices configuration with different properties using MicroProfile Config APIs
-:page-seo-description: A tutorial and example on how to access configuration details and to aggregate configuration properties into a CDI bean for Java microservices using MicroProfile Config APIs.
+:page-seo-description: A tutorial and example on how to access configuration details and aggregate configuration properties into a CDI bean for Java microservices using MicroProfile Config APIs.
 :guide-author: Open Liberty
 = Aggregating configuration properties
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to use MicroProfile Config APIs to access configuration details and to aggregate configuration properties into a CDI bean.
+Learn how to use MicroProfile Config APIs to access configuration details and aggregate configuration properties into a CDI bean.
 
 :win: WINDOWS
 :mac: MAC
@@ -36,7 +36,7 @@ Learn how to use MicroProfile Config APIs to access configuration details and to
 
 You'll learn how to ... (need to write up). This guide assumes you are familiar with https://openliberty.io/docs/latest/external-configuration.html[External configuration of microservices^] and  https://openliberty.io/docs/latest/reference/feature/mpConfig-3.0.html[MicroProfile Config^]. If you're new to MicroProfile Config, you might want to start with the https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^] guide and the https://openliberty.io/guides/microprofile-config.html[Configuring microservices^] guide first.
 
-The application that you will be working with is a `query` service. It fetches properties from the `system` microservices. The `system` microservice will use different port and require different user when running in the testing and development environments. You'll learn different ways to retreive configuration for  the `system` service using MicroProfile Config APIs.
+The application that you will be working with is a `query` service. It fetches properties from the `system` microservice. You'll learn different ways to retreive configuration for the `system` service using MicroProfile Config APIs.
 
 // =================================================================================================
 // Getting Started
@@ -76,7 +76,7 @@ The defaultServer server is ready to run a smarter planet.
 Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`.
 
 
-After you are finished checking out the application, stop both the `query` service by pressing `CTRL+C` in the command-line sessions where you ran it. Alternatively, you can run the following goals from the `finish/query` directory in another command-line session:
+After you are finished checking out the application, leave the `system` service running and stop the `query` service by pressing `CTRL+C` in the command-line sessions where you ran the `query` service. Alternatively, you can run the following goals from the `finish/query` directory in another command-line session:
 
 [role='command']
 ```
