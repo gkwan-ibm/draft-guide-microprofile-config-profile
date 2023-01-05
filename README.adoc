@@ -73,8 +73,7 @@ After you see the following message in both command-line sessions, both of your 
 The defaultServer server is ready to run a smarter planet.
 ----
 
-Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`.
-
+Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`. Then, point your browser to the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
 
 After you are finished checking out the application, leave the `system` service running and stop the `query` service by pressing `CTRL+C` in the command-line sessions where you ran the `query` service. Alternatively, you can run the following goals from the `finish/query` directory in another command-line session:
 
