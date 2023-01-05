@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2022 IBM Corporation and others.
+ * Copyright (c) 2023 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -72,15 +72,9 @@ public class QueryEndpointIT {
         assertTrue(value.contains("ol.guides.com"), "Value is wrong.");
         int ordinal = json.getInt("SourceOrdinal");
         String source = json.getString("SourceName");
-        if (value.contains("alice")) {
-            assertEquals(101, ordinal, "SourceOrdinal is greater than 101.");
-            assertTrue(source.contains("microprofile-config-development.properties"),
-                   "SourceName is not right.");
-        } else {
-            assertEquals(100, ordinal, "SourceOrdinal is less than 100.");
-            assertTrue(source.contains("microprofile-config.properties"),
-                    "SourceName is not right.");
-        }
+        assertEquals(100, ordinal, "SourceOrdinal is not 100.");
+        assertTrue(source.contains("microprofile-config.properties"),
+               "SourceName is not right.");
         response.close();
     }
     // end::testQueryConfigContact[]
