@@ -75,11 +75,11 @@ The defaultServer server is ready to run a smarter planet.
 
 Point your browser to the following URLs:
 
-* http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java version in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`. 
+* http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java properties in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`. 
 
 * http://localhost:9085/query/config/contact URL. You are expected to see the source name, source ordinal, and value of the `query.contactEmail` property.
 
-* http://localhost:9085/query/config URL. You are expected to see all registered configuration sources and properties of the running query service.
+* http://localhost:9085/query/config URL. You are expected to see all registered configuration sources and properties of the running `query` service.
 
 * http://localhost:9085/query/config/system URL. You are expected to see all the configuration properties prefixed with `system.`
 
@@ -114,6 +114,8 @@ cd query
 mvn liberty:dev
 ```
 
+Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS name and Java version in JSON format. 
+
 Property expressions provide a way to embed expression segments in property values by using the `${...}` sequence. You can include the value of a configuration property in another configuration property by using the `${prop}` syntax. Additionally, you can implement expressions with the following syntax:
 
 * `${prop:default}` - Provides a `default` value after the `:` character if the expression doesn't find a value for the `prop` property.
@@ -125,20 +127,29 @@ Property expressions provide a way to embed expression segments in property valu
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
+#Replace the `microprofile-config.properties` file.#
+`query/src/main/resources/META-INF/microprofile-config.properties`
 ----
 
-query/microprofile-config-development.properties
+query/microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=properties,roleAndQuery"]
 ----
-include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
+include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-Add the [hotspot=userPassword file=0]`system.userPassword` configuration property to the `microprofile-config-development.properties` file. The [hotspot=userPassword file=0]`system.userPassword` property is expanded to `alice:alicepwd`.
-
 // file 1
-[role="code_command hotspot file=1", subs="quotes"]
+system/server.xml
+[source, XML, linenums, role='code_column']
+----
+include::finish/system/src/main/liberty/config/server.xml[]
+----
+
+A [hotspot=basicRegistry file=1]`basicRegistry` element is configured in the `system` microservice. Only the registered user is authorized to access to the `system` microservice. Note that this `basicRegistry` element is a very simple case for learning purposes. For more information about the different user registries, see the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^].
+
+Add the [hotspot=userPassword file=0]`system.userPassword` configuration property to the `microprofile-config.properties` file. The [hotspot=userPassword file=0]`system.userPassword` property is expanded to `alice:alicepwd`.
+
+// file 2
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
 `query/src/main/java/io/openliberty/guides/query/SystemResource.java`
@@ -150,7 +161,7 @@ SystemResource.java
 include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
-Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=1]`system.userPassword` property, and use the [hotspot=authHeader file=1]`systemUserPassword` variable to construct the authorization header.
+Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=2]`system.userPassword` property, and use the [hotspot=authHeader file=2]`systemUserPassword` variable to construct the authorization header.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. You see the current OS and Java version in JSON format.
 
