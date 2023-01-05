@@ -7,7 +7,7 @@
 //   IBM Corporation
 :projectid: microprofile-config-apis
 :page-layout: guide-multipane
-:page-duration: 30 minutes
+:page-duration: 25 minutes
 :page-releasedate: 2023-01-31
 :page-description: Learn how to use MicroProfile Config APIs to access and aggregate configuration properties.
 :page-tags: ['MicroProfile']
@@ -309,7 +309,7 @@ The [hotspot=inject file=1]`@Inject` and [hotspot=ConfigProperties file=1]`@Conf
 
 The [hotspot=getSystemConfig file=1]`getSystemConfig()` method implements the `/query/config/system` endpoint. The endpoint uses the [hotspot=configSystemBean file=1]`systemConfig` bean to retrieve the values of the [hotspot=systemProperties file=1]`system.*` configuration properties without having to inject them one by one.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
+Check out the endpoint that you created at the http://localhost:9085/query/config/system URL. You see all the configuration properties prefixed with `system.`.
 
 // ===========================================================================================
 == Implementing test cases
@@ -365,7 +365,7 @@ Results:
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-When you are done checking out the application in `development` environment, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `query` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `query` services:
+When you are done checking out the application, exit dev mode by pressing `CTRL+C` in the command-line sessions where you ran the `system` and `query` services, or by typing `q` and then pressing the `enter/return` key. Alternatively, you can run the `liberty:stop` goal from the `start` directory in another command-line session for the `system` and `query` services:
 // static guide instruction
 ifndef::cloud-hosted[]
 [role="command"]
@@ -383,79 +383,9 @@ mvn -pl backendServices liberty:stop
 ```
 endif::[]
 
-
-// ===========================================================================================
-== Testing the application
-
-Before testing the application in the `testing` environment, update the `microprofile-config.properties` file with the new `system.userPassword`, `system.properties`, `role`, and `query.*` properties that were added in the previous section.
-
-// file 0
-[role="code_command hotspot file=0", subs="quotes"]
-----
-#Replace the `microprofile-config.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config.properties`
-----
-
-query/microprofile-config.properties
-[source, properties, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
-----
-
-
-Navigate to the `start` directory to test the application by running the following script:
-
-include::{common-includes}/os-tabs.adoc[]
-
-[.tab_content.mac_section.linux_section]
---
-[role='command']
-```
-./scripts/testApp.sh
-```
---
-
-[.tab_content.windows_section]
---
-[role='command']
-```
-scripts\testApp.bat
-```
---
-
-
-If the tests pass, you see a similar output to the following example:
-
-[source, role="no_copy"]
-----
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-Running it.io.openliberty.guides.system.SystemEndpointIT
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.539 s - in it.io.openliberty.guides.system.SystemEndpointIT
-
-Results:
-
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-
-...
-
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-Running it.io.openliberty.guides.query.QueryEndpointIT
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.706 s - in it.io.openliberty.guides.query.QueryEndpointIT
-
-Results:
-
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
-
-----
-
-
 == Great work! You're done!
 
-You just learnt how to use Microfile Config Profile to configure the application for multiple environments.
+You just learnt how to use Microfile Config APIs to aggregate configuration properties into a CDI bean.
 
 Feel free to try one of the related guides. They demonstrate new technologies that you can learn and expand on top what you built in this guide.
 
