@@ -172,7 +172,7 @@ include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.
 
 Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=3]`system.userPassword` property, and use the [hotspot=authHeader file=3]`systemUserPassword` variable to construct the authorization header.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. You see the current OS and Java version in JSON format.
+Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you modified at the http://localhost:9085/query/systems/localhost URL.
 
 // ===========================================================================================
 == Retrieving property as a list
@@ -182,14 +182,14 @@ Configuration values are purely Strings. MicroProfile Config API has built-in co
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
+#Replace the `microprofile-config.properties` file.#
+`query/src/main/resources/META-INF/microprofile-config.properties`
 ----
 
-query/microprofile-config-development.properties
+query/microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=roleAndQuery"]
 ----
-include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
+include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 Add the [hotspot=properties file=0]`system.properties` property that contains a list of system properties that are separated by commas.
@@ -203,7 +203,7 @@ Next, update the `/query/systems/{hostname}` endpoint to list more system proper
 `query/src/main/java/io/openliberty/guides/query/SystemResource.java`
 ----
 
-SystemResource.java
+query/SystemResource.java
 [source, java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
@@ -213,7 +213,7 @@ Inject the [hotspot=systemPropertiesProperty file=1]`system.properties` configur
 
 Then, modify the [hotspot=getSystemPropertiesMethod file=1]`getSystemProperties()` method. Iterate through the [hotspot=systemProperties file=1]`systemProperties` list to retrieve all the specified property values from the `systemClient` REST client.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the specified system properties in JSON format.
+Check out the service that you modified at the http://localhost:9085/query/systems/localhost URL. You see a result in JSON format with the specified system properties in JSON format.
 
 // ===========================================================================================
 == Using configuration source APIs
