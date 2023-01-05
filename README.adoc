@@ -281,7 +281,7 @@ Define a CDI bean for the configuration properties that share the common prefix 
 `query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java`
 ----
 
-ConfigSystemBean.java
+query/ConfigSystemBean.java
 [source, java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigSystemBean.java[]
@@ -299,7 +299,7 @@ Use the `ConfigSystemBean` class in the `ConfigResource` class.
 `query/src/main/java/io/openliberty/guides/query/ConfigResource.java`
 ----
 
-ConfigResource.java
+query/ConfigResource.java
 [source, java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
