@@ -225,14 +225,14 @@ You will implement endpoints that retrieve information specific to this guide by
 // file 0
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the `microprofile-config-development.properties` file.#
-`query/src/main/resources/META-INF/microprofile-config-development.properties`
+#Replace the `microprofile-config.properties` file.#
+`query/src/main/resources/META-INF/microprofile-config.properties`
 ----
 
 query/microprofile-config-development.properties
 [source, properties, linenums, role="code_column"]
 ----
-include::finish/query/src/main/resources/META-INF/microprofile-config-development.properties[]
+include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 Add the [hotspot=role file=0]`role` and the [hotspot=query file=0]`query.*` properties. The [hotspot=contactEmail file=0]`query.contactEmail` property contains composed property expression where the `${role}` inner expression is expanded first. The `${query.${role}}` expression provides the `admin` default value if the expression doesn't find a value.
