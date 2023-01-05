@@ -75,13 +75,13 @@ The defaultServer server is ready to run a smarter planet.
 
 Point your browser to the following URLs:
 
-* http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS and Java properties in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`. 
+* http://localhost:9085/query/systems/localhost URL returns the current OS and Java properties in JSON format. The URL retrieves the system property information for the `localhost` hostname by making a request to the `system` service at `\http://localhost:<system.httpPort>/<system.contextRoot>/property/{property}`. 
 
-* http://localhost:9085/query/config/contact URL. You are expected to see the source name, source ordinal, and value of the `query.contactEmail` property.
+* http://localhost:9085/query/config/contact URL returns the source name, source ordinal, and value of the `query.contactEmail` property.
 
-* http://localhost:9085/query/config URL. You are expected to see all registered configuration sources and properties of the running `query` service.
+* http://localhost:9085/query/config URL returns all registered configuration sources and properties of the running `query` service.
 
-* http://localhost:9085/query/config/system URL. You are expected to see all the configuration properties prefixed with `system.`
+* http://localhost:9085/query/config/system URL returns all the configuration properties prefixed with `system.`
 
 After you are finished checking out the application, leave the `system` service running and stop the `query` service by pressing `CTRL+C` in the command-line sessions where you ran the `query` service. Alternatively, you can run the following goals from the `finish/query` directory in another command-line session:
 
@@ -247,7 +247,7 @@ Implement the `/query/config` and `/query/config/contact` endpoints in the `quer
 `query/src/main/java/io/openliberty/guides/query/ConfigResource.java`
 ----
 
-ConfigResource.java
+query/ConfigResource.java
 [source, java, linenums, role="code_column hide_tags=copyright,systemConfig,getSystemConfig"]
 ----
 include::finish/query/src/main/java/io/openliberty/guides/query/ConfigResource.java[]
@@ -261,9 +261,11 @@ Inject the [hotspot=config file=1]`Config` metadata object. You can use it to re
 
 The [hotspot=getConfigSources file=1]`getConfigSources()` method returns all the registered configuration sources for the running service. The [hotspot=getPropertyNames file=1]`getPropertyNames()` method finds all configuration property names by searching through all the registered ConfigSources.
 
-Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Point your browser to the http://localhost:9085/query/config/contact URL. You see the source name, source ordinal, and value of the `query.contactEmail` property.
+Check out the following endpoints that you created:
 
-Next, point your browser to the http://localhost:9085/query/config URL. You see all registered configuration sources and properties of the running `query` service.
+* http://localhost:9085/query/config/contact returns the source name, source ordinal, and value of the `query.contactEmail` property.
+
+* http://localhost:9085/query/config returns all registered configuration sources and properties of the running `query` service.
 
 // ===========================================================================================
 == Aggregating configuration properties into a CDI bean
