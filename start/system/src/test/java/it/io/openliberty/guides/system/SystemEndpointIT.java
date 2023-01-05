@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2022 IBM Corporation and others.
+ * Copyright (c) 2023 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,14 +31,14 @@ public class SystemEndpointIT {
 
     @BeforeAll
     public static void setup() {
-        String systemRootPath = System.getProperty("system.service.root", "localhost:9080");
-        String contextRoot = System.getProperty("system.context.root", "system");
+        String systemRootPath = System.getProperty("system.service", "localhost:9080");
+        String contextRoot = System.getProperty("system.context", "system");
         clusterUrl = "http://" + systemRootPath + "/" + contextRoot + "/property/";
 
-        String userPassword = System.getProperty("system.username", "bob") + ":"
-        		              + System.getProperty("system.password", "bobpwd");
-		authHeader = "Basic "
-                + Base64.getEncoder().encodeToString(userPassword .getBytes());
+        String userPassword = System.getProperty("system.user", "admin") + ":" +
+                              System.getProperty("system.pwd", "adminpwd");
+        authHeader = "Basic " +
+                     Base64.getEncoder().encodeToString(userPassword .getBytes());
     }
 
     @Test
