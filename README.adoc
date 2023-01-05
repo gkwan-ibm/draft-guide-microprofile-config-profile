@@ -12,7 +12,7 @@
 :page-description: Learn how to use MicroProfile Config Profile to provide multiple configurations in DevOps lifecycle.
 :page-tags: ['MicroProfile']
 :page-permalink: /guides/{projectid}
-:page-related-guides: ['microprofile-config-intro']
+:page-related-guides: ['microprofile-config-intro', 'microprofile-config-apis']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :source-highlighter: prettify
 :page-seo-title: Configuring Java microservices to provide multiple configurations for different phases in DevOps lifecycle using MicroProfile Config Profile
