@@ -38,13 +38,17 @@ public class SystemResource {
     @ConfigProperty(name = "system.httpPort")
     private String systemHttpPort;
 
+    // tag::user[]
     @Inject
     @ConfigProperty(name = "system.user")
     private String systemUser;
+    // end::user[]
 
+    // tag::password[]
     @Inject
     @ConfigProperty(name = "system.password")
     private String systemPassword;
+    // end::password[]
     
     @Inject
     @ConfigProperty(name = "system.contextRoot")
@@ -72,9 +76,11 @@ public class SystemResource {
             return p;
         }
 
+        // tag::authHeader[]
         String systemUserPassword = systemUser + ":" + systemPassword;
         String authHeader = "Basic "
                + Base64.getEncoder().encodeToString(systemUserPassword.getBytes());
+        // end::authHeader[]
 
         try {
             p.put("os.name", systemClient.getProperty(authHeader, "os.name"));

@@ -114,6 +114,24 @@ cd query
 mvn liberty:dev
 ```
 
+// file 0
+system/server.xml
+[source, XML, linenums, role='code_column']
+----
+include::finish/system/src/main/liberty/config/server.xml[]
+----
+
+// file 1
+query/SystemResource.java
+[source, XML, linenums, role='code_column']
+----
+include::start/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
+----
+
+A [hotspot=basicRegistry file=0]`basicRegistry` element is configured in the `system` microservice. Only the registered user is authorized to access to the `system` microservice. Note that this `basicRegistry` element is a very simple case for learning purposes. For more information about the different user registries, see the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^].
+
+The `/query/systems/{hostname}` endpoint constructs the [hotspot=authHeader file=1]`authHeader` authentication header with the [hotspot=user file=1]`system.user` and [hotspot=password file=1]`system.password` properties to access the `system` microservice. 
+
 Point your browser to the http://localhost:9085/query/systems/localhost URL. You are expected to see the current OS name and Java version in JSON format. 
 
 Property expressions provide a way to embed expression segments in property values by using the `${...}` sequence. You can include the value of a configuration property in another configuration property by using the `${prop}` syntax. Additionally, you can implement expressions with the following syntax:
@@ -124,8 +142,8 @@ Property expressions provide a way to embed expression segments in property valu
 
 * `${prop1}${prop2}` - Multiple expressions.
 
-// file 0
-[role="code_command hotspot file=0", subs="quotes"]
+// file 2
+[role="code_command hotspot file=2", subs="quotes"]
 ----
 #Replace the `microprofile-config.properties` file.#
 `query/src/main/resources/META-INF/microprofile-config.properties`
@@ -137,31 +155,22 @@ query/microprofile-config.properties
 include::finish/query/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
-// file 1
-system/server.xml
-[source, XML, linenums, role='code_column']
-----
-include::finish/system/src/main/liberty/config/server.xml[]
-----
+Add the [hotspot=userPassword file=2]`system.userPassword` configuration property to the `microprofile-config.properties` file. The [hotspot=userPassword file=2]`system.userPassword` property is expanded to `alice:alicepwd`.
 
-A [hotspot=basicRegistry file=1]`basicRegistry` element is configured in the `system` microservice. Only the registered user is authorized to access to the `system` microservice. Note that this `basicRegistry` element is a very simple case for learning purposes. For more information about the different user registries, see the https://openliberty.io/docs/latest/user-registries-application-security.html[User registries documentation^].
-
-Add the [hotspot=userPassword file=0]`system.userPassword` configuration property to the `microprofile-config.properties` file. The [hotspot=userPassword file=0]`system.userPassword` property is expanded to `alice:alicepwd`.
-
-// file 2
-[role="code_command hotspot file=2", subs="quotes"]
+// file 3
+[role="code_command hotspot file=3", subs="quotes"]
 ----
 #Replace the `SystemResource` class.#
 `query/src/main/java/io/openliberty/guides/query/SystemResource.java`
 ----
 
-SystemResource.java
+query/SystemResource.java
 [source, java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::staging/query/src/main/java/io/openliberty/guides/query/SystemResource.java[]
 ----
 
-Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=2]`system.userPassword` property, and use the [hotspot=authHeader file=2]`systemUserPassword` variable to construct the authorization header.
+Replace the injection of the `system.user` and `system.password` properties with the [hotspot=userPassword file=3]`system.userPassword` property, and use the [hotspot=authHeader file=3]`systemUserPassword` variable to construct the authorization header.
 
 Because you are running the `query` service in dev mode, the changes that you made were automatically picked up. Check out the service that you created at the http://localhost:9085/query/systems/localhost URL. You see the current OS and Java version in JSON format.
 
